@@ -19,7 +19,6 @@ if not v.data_profile false
   v.profile_type=f.get_user_type(v.profileid)
   v.profile_userimage=f.get_user_image(v.profileid)
   v.profile_userbanner=f.get_user_banner(v.profileid)
-  v.profile_mc_name=f.get_user_mc_name(v.profileid)
 
   f.set_pagetitle("v.profile_usersfullname")
   f.set_pagedescription("@v.profile_usersusername")
@@ -59,7 +58,7 @@ if not v.data_profile false
   end
   t.content_right("</bubble>")
 
-  v.generate_tags="<div class='inlinebutton-info-minecraft'>v.profile_mc_name</div>"
+  v.generate_tags="<div></div>"
 
   if v.profile_type=="admin"
     v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
