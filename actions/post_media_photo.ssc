@@ -29,7 +29,7 @@ if v.file_uploaded true
     v.imagesize=800
     if v.usertype=="normal"
       v.imagesallowed=200
-      v.imagesize=800
+      v.imagesize=600
     end
     if v.usertype=="mod"
       v.imagesallowed=500
@@ -39,21 +39,9 @@ if v.file_uploaded true
       v.imagesallowed=500
       v.imagesize=1000
     end
-    if v.usertype=="build"
-      v.imagesallowed=4000
-      v.imagesize=2000
-    end
-    if v.usertype=="buildlead"
-      v.imagesallowed=4000
-      v.imagesize=2000
-    end
     if v.usertype=="admin"
       v.imagesallowed=6000
-      v.imagesize=4000
-    end
-    if v.usertype=="owner"
-      v.imagesallowed=10000
-      v.imagesize=4000
+      v.imagesize=2000
     end
 
     v.allowed=true
