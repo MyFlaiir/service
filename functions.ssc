@@ -1,0 +1,132 @@
+f.render_contentmd{
+	v.file=v.function_passed[0]
+
+	v.title=s.file_name(v.file,".md")
+	v.title=s.string_word_uppercase(v.title)
+
+	v.content=s.file_read(v.file)
+	v.content=s.markdown(v.content)
+	s.echo("<h2>v.title</h2>v.content")
+}
+
+f.generate_linkcode{
+	v.table=v.function_passed[0]
+  v.datause=s.random_string(35)
+  v.datause=s.string_lowercase(v.datause)
+  v.data_db=s.mysql_select("SELECT linkcode FROM v.table WHERE linkcode='v.datause' LIMIT 1")
+  if not v.data_db false
+    v.databack=f.generate_linkcode(v.table)
+    s.echo(v.databack)
+  else
+    s.echo(v.datause)
+  end
+}
+
+f.new_social_feed{
+	v.user=v.function_passed[0]
+	v.action=v.function_passed[1]
+	v.source=v.function_passed[2]
+	v.link=v.function_passed[3]
+	v.type=v.function_passed[4]
+	v.date=s.timestamp()
+
+	v.postid=s.mysql_insert("INSERT INTO socials_feeds(date,user,action,source,link,type) VALUES('v.date','v.user','v.action','v.source','v.link','v.type')")
+}
+
+gv.cachesystem[yes]=true
+
+f.cache_string_fetch{
+	v.section=v.function_passed[0]
+	v.string=v.function_passed[1]
+	gv.codecachesystem="v.section - v.string"
+	if set gv.cachesystem[gv.codecachesystem]
+		s.echo("gv.cachesystem[gv.codecachesystem]")
+	else
+		s.echo("cachnofind")
+	end
+}
+
+f.cache_string_save{
+	v.section=v.function_passed[0]
+	v.string=v.function_passed[1]
+	v.data=v.function_passed[2]
+	gv.codecachesystem="v.section - v.string"
+	gv.cachesystem[gv.codecachesystem]=v.data
+}
+
+f.clean_md{
+	v.content=v.function_passed[0]
+	v.content=s.string_replace("https://","",v.content)
+	v.content=s.string_replace("http://","",v.content)
+	v.content=s.string_replace("media0.giphy.com","https://media0.giphy.com",v.content)
+	v.content=s.string_replace("media1.giphy.com","https://media1.giphy.com",v.content)
+	v.content=s.string_replace("media2.giphy.com","https://media2.giphy.com",v.content)
+	v.content=s.string_replace("media3.giphy.com","https://media3.giphy.com",v.content)
+	v.content=s.string_replace("media4.giphy.com","https://media4.giphy.com",v.content)
+	v.content=s.string_replace("media5.giphy.com","https://media5.giphy.com",v.content)
+	v.content=s.string_replace("media6.giphy.com","https://media6.giphy.com",v.content)
+	v.content=s.string_replace("media7.giphy.com","https://media7.giphy.com",v.content)
+	v.content=s.string_replace("media8.giphy.com","https://media8.giphy.com",v.content)
+	v.content=s.string_replace("media9.giphy.com","https://media9.giphy.com",v.content)
+	v.content=s.string_replace("www.youtube.com","https://www.youtube.com",v.content)
+	v.content=s.string_replace("img.youtube.com","https://img.youtube.com",v.content)
+	v.content=s.string_replace("media.giphy.com","https://media.giphy.com",v.content)
+	v.content=s.string_replace("thumbs.gfycat.com","https://thumbs.gfycat.com",v.content)
+	v.content=s.string_replace("cdn.discordapp.com","https://cdn.discordapp.com",v.content)
+	v.content=s.string_replace("discord.gg","https://discord.gg",v.content)
+
+	s.echo(v.content)
+}
+
+f.set_pagetitle{
+	v.title=v.function_passed[0]
+  t.pagetitle()
+  t.pagetitle(v.title)
+	t.title()
+	t.title(v.title)
+}
+
+f.set_pagedescription{
+	v.title=v.function_passed[0]
+  t.pagedescription()
+  t.pagedescription(v.title)
+}
+
+f.permission_user_loggedin{
+  if notset sv.user_id
+		if notset cv.sessionid
+    	s.header("Location: /login")
+    	s.quit()
+		else
+			s.header("Location: /login")
+    	s.quit()
+		end
+  else
+		v.type=f.get_user_type()
+		if v.type=="banned"
+			sv.user_username=""
+			sv.user_id=""
+			sv.user_verified=""
+			s.cookie_set("sessionid", "exit", "-50", gv.system_cookies)
+			s.header("Location: /logout")
+	    s.quit()
+		end
+  end
+}
+
+f.permission_user_staff{
+  if notset sv.user_id
+    s.header("Location: /login")
+    s.quit()
+  else
+		v.type=f.get_user_type()
+		if not v.type=="mod"
+			if not v.type=="owner"
+				if not v.type=="admin"
+					s.header("Location: /")
+	    		s.quit()
+				end
+			end
+		end
+  end
+}

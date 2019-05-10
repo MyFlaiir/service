@@ -1,0 +1,109 @@
+s.include("/system.ssc");
+s.template("/templates/main.html")
+f.set_pagetitle("Account")
+f.set_pagedescription("You can manage and edit your account in this section.")
+
+v.catchall=s.system_file_original()
+v.catchall=s.string_replace("/index.ssc","",v.catchall)
+v.catchall=s.string_replace("/profile/","",v.catchall)
+v.profile_username=s.string_clean(v.catchall)
+
+v.data_profile=s.mysql_select("SELECT * FROM accounts WHERE username='v.profile_username' LIMIT 1")
+if not v.data_profile false
+  v.profileid=v.data_profile[id]
+
+  v.profile_usersfullname=f.get_user_name_full(v.profileid)
+  v.profile_usersfirstname=f.get_user_name_first(v.profileid)
+  v.profile_usersusername=f.get_user_username(v.profileid)
+  v.profile_usersemail=f.get_user_email(v.profileid)
+  v.profile_type=f.get_user_type(v.profileid)
+  v.profile_userimage=f.get_user_image(v.profileid)
+  v.profile_userbanner=f.get_user_banner(v.profileid)
+  v.profile_mc_name=f.get_user_mc_name(v.profileid)
+
+  f.set_pagetitle("v.profile_usersfullname")
+  f.set_pagedescription("@v.profile_usersusername")
+
+  t.content_right("<bubble>")
+  t.content_right("<h2 style='margin-top:0px;'>Actions</h2>")
+  if not sv.user_id==v.profileid
+    if f.get_user_following(sv.user_id,v.profileid) false
+      t.content_right("<a href='javascript:modl(\"/actions/profile_follow?user=v.profile_usersusername\");' class='sidebar_menu'>Follow v.profile_usersfirstname</a>")
+    else
+      t.content_right("<a href='javascript:modl(\"/actions/profile_unfollow?user=v.profile_usersusername\");' class='sidebar_menu'>Unfollow v.profile_usersfirstname</a>")
+    end
+  else
+    t.content_right("<a href="javascript:modl('/actions/post_social_update');" class='sidebar_menu'>New update</a>")
+    t.content_right("<a href="javascript:modl('/actions/post_media_photo');" class='sidebar_menu'>Upload photos</a>")
+  end
+  t.content_right("</bubble>")
+
+  t.content_right("<bubble>")
+  t.content_right("<h2 style='margin-top:0px;'>Links</h2>")
+  t.content_right("<a href='/profile/v.profile_username' class='sidebar_menu'>Updates</a>")
+  t.content_right("</bubble>")
+
+
+  //Generate feed events
+  t.content_right("<bubble>")
+  t.content_right("<h2 style='margin-top:0px;'>Recent events</h2>")
+  v.data_feeds=s.mysql_select("SELECT id,user FROM socials_feeds WHERE user='v.profileid' ORDER BY id DESC LIMIT 30")
+  if not v.data_feeds false
+    if set v.data_feeds[user]
+      f.generate_social_feed(v.data_feeds)
+    else
+      s.array_loop("generate_social_feed",v.data_feeds)
+    end
+  else
+    t.content_right("No content found...")
+  end
+  t.content_right("</bubble>")
+
+  v.generate_tags="<div class='inlinebutton-info-minecraft'>v.profile_mc_name</div>"
+
+  if v.profile_type=="admin"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
+  end
+  if v.profile_type=="mod"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
+  end
+  if v.profile_type=="owner"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
+  end
+  if v.profile_type=="bug"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
+  end
+  if v.profile_type=="build"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
+  end
+  if v.profile_type=="buildlead"
+    v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
+  end
+
+  t.content_middle("<bubble><div style='text-align:center;'>")
+  t.content_middle("<div style=\"background-image:url('v.profile_userbanner');background-position: center;background-size: cover;padding:20px;margin-top:-10px;margin-left:-10px;margin-right:-10px;border-top-left-radius: 9px;border-top-right-radius: 9px;\">")
+  if not v.profileid=="4"
+    t.content_middle("<avatar style=\"border-radius: 200px;width: 200px;height:200px;background-image:url('v.profile_userimage');\"></avatar>")
+  else
+    t.content_middle("<div style='width:200px;height:200px;display:inline-block;'></div>")
+  end
+  t.content_middle("</div>")
+  t.content_middle("<div style='margin-top:15px;'>v.generate_tags</div>")
+  t.content_middle("</div></bubble>")
+
+  //load posts
+  v.data_posts=s.mysql_select("SELECT * FROM socials_updates WHERE user='v.profileid' ORDER BY id DESC LIMIT 100")
+  if not v.data_posts false
+    if set v.data_posts[user]
+      f.generate_social_update_ajax(v.data_posts)
+    else
+      s.array_loop("generate_social_update_ajax",v.data_posts)
+    end
+  else
+    t.content_middle("<bubble><div class='message_warning'>We have no posts to show</div></bubble>")
+  end
+
+
+else
+  t.content_middle("<bubble>No user found with this username...</bubble>")
+end

@@ -1,0 +1,64 @@
+gv.system_domain="myflaiir.com"
+gv.system_cookies=".myflaiir.com"
+
+s.include("/system_database.ssc")
+s.include("/system_sessions.ssc")
+s.include("/functions.ssc")
+s.include("/functions_get_user.ssc")
+s.include("/functions_post_social.ssc")
+s.include("/functions_update_social.ssc")
+s.include("/functions_get_social.ssc")
+s.include("/functions_check_social.ssc")
+s.include("/functions_generate_social.ssc")
+
+//On session start clear data
+if notset sv.user_id
+  sv.user_id=0
+  sv.user_username=false
+  sv.user_firstname=false
+  sv.user_lastname=false
+end
+gv.valid_user=false
+
+//Check if user info is valid
+if not sv.user_id==0
+  v.data_db_xn=s.mysql_select("SELECT id,username,first_name,last_name FROM accounts WHERE id='sv.user_id' LIMIT 1")
+  if not v.data_db_xn false
+    sv.user_id=v.data_db_xn[id]
+    sv.user_username=v.data_db_xn[username]
+    sv.user_firstname=v.data_db_xn[first_name]
+    sv.user_lastname=v.data_db_xn[last_name]
+    gv.valid_user=true
+  else
+    sv.user_id=0
+  end
+end
+
+if not sv.user_id==0
+  t.header_left("<img src='/logo.png' style='max-height: 40px;float: left;margin-right: 5px;margin-top: 5px;'>")
+  t.header_left("<a href=\"/\" class='button'><i class="fas fa-rss"></i> Feed</a>")
+  t.header_left("<a href=\"/profile/sv.user_username\" class='button'><i class="fas fa-user"></i> Profile</a>")
+end
+t.header_left("<a href=\"/wiki\" class='button'><i class="fas fa-book"></i> Wiki</a>")
+
+if not sv.user_id==0
+  t.header_right("<a href=\"javascript:modl('/actions/post_social_update');\" class='button'><i class="fas fa-pencil-alt"></i> New Update</a>")
+  t.header_right("<a href=\"/account\" class='button'><i class="fas fa-cogs"></i> Settings</a>")
+else
+  t.header_right("<a href=\"/login\" class='button'>Login</a>")
+  t.header_right("<a href=\"/register\" class='button'>Register</a>")
+end
+
+
+if not sv.user_id==0
+  v.stylebanner=f.get_user_banner()
+  t.backgroundelement("<div style=\"background-image:url('v.stylebanner');background-position: center;background-size: cover;filter: blur(3px);width: 100%;height: 100%;position: fixed;left: 0px;top: 0px;z-index: -5000;\"><div style=\"width: 100%;height: 100%;background: rgba(255, 255, 255, 0.65);\"></div></div>")
+end
+
+//validate api key or user
+f.validate_session{
+  if gv.valid_user false
+    s.header("Location: /nope")
+    s.quit("No valid session found...")
+  end
+}

@@ -1,0 +1,668 @@
+f.generate_social_update_ajax{
+  v.postid=v.function_passed[0]
+  if set v.postid[linkcode]
+    v.postid=v.postid[linkcode]
+  end
+
+  t.content_middle("<bubble><checkupaction action='ajaxload' divajax='v.postid'>/ajax/social_update?post=v.postid</checkupaction><div id='v.postid'></div></bubble>")
+}
+
+f.generate_social_comment_ajax{
+  v.postid=v.function_passed[0]
+  if set v.postid[linkcode]
+    v.postid=v.postid[linkcode]
+  end
+
+  t.content_middle("<bubble><checkupaction action='ajaxload' divajax='v.postid'>/ajax/social_comment?comment=v.postid</checkupaction><div id='v.postid'></div></bubble>")
+}
+
+f.generate_social_feed{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_feeds WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.action=v.data_id[action]
+    v.source=v.data_id[source]
+    v.link=v.data_id[link]
+
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    v.linktext="<text></text>"
+    if not v.linktext=="/"
+      v.linktext="<a href='v.link'>Take a look</a>"
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+
+    t.content_right("<div style='margin-bottom: 10px;border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 30px;float:left;height:30px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'>v.usr_name</a> v.action v.dateago&hellip; v.linktext</div>")
+
+  end
+}
+
+f.generate_social_feed_local{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_feeds WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.action=v.data_id[action]
+    v.source=v.data_id[source]
+    v.link=v.data_id[link]
+
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    v.action=s.string_replace("on a update","",v.action)
+    v.action=s.string_replace("reacted to a update","reacted",v.action)
+    v.action=s.string_replace("a new update","the update",v.action)
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+
+    t.content_right("<div style='margin-bottom: 10px;border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 30px;float:left;height:30px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'>v.usr_name</a> v.action v.dateago&hellip;</div>")
+
+  end
+}
+
+f.generate_social_update_small{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.rules=v.function_passed[1]
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_updates WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.editdate=v.data_id[date_updated]
+    v.type=v.data_id[type]
+    v.rating=v.data_id[rating]
+    v.linkcode=v.data_id[linkcode]
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    if not v.editdate==0
+      v.dateeditago=s.convert_timestamp_ago(v.editdate,"true")
+      v.dateago="v.dateago, edited v.dateeditago"
+    end
+
+    v.data_con=s.mysql_select("SELECT content FROM socials_updates_contents WHERE post='v.postid' LIMIT 1")
+    if not v.data_con false
+      v.content=v.data_con[content]
+      v.content=s.base64_decode(v.content)
+      v.content=s.string_clean(v.content)
+      v.content=f.clean_md(v.content)
+
+	    v.content=s.string_trim_utf8(v.content,420)
+      v.size_after=s.string_length(v.content)
+      if v.size_after>=415
+        v.content="v.content&hellip;"
+        v.bottomlink="<p><a href='/update/v.linkcode' class='post_viewall'>View full update</a></p>"
+      else
+        v.bottomlink="<div></div>"
+      end
+
+      v.content=s.markdown(v.content)
+      v.content=s.string_brokenhtml(v.content)
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+    v.usr_mc=f.get_user_mc_name(v.user)
+    v.usr_type=f.get_user_type(v.user)
+
+    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+
+    if v.usr_type=="admin"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
+    end
+    if v.usr_type=="mod"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
+    end
+    if v.usr_type=="owner"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
+    end
+    if v.usr_type=="bug"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
+    end
+    if v.usr_type=="build"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
+    end
+    if v.usr_type=="buildlead"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
+    end
+
+    v.actions="<div></div>"
+
+    if v.user==sv.user_id
+      v.actions="<div class='post_edit'><a href=\"javascript:modl('/actions/update_social_update?post=v.postid');\">Edit</a></div><div class='post_delete'><a href=\"javascript:modl_confirm('Delete social update?','If you do this it cant be undone...','/actions/delete_social_update?post=v.postid');\">Delete</a></div>"
+    end
+
+    v.emotegenerated=f.generate_social_update_emotes(v.postid)
+
+    if notset v.content
+      v.content="<p>This update cant be displayed.</p>"
+    end
+
+    if v.content==""
+      v.content="<p>This update cant be displayed.</p>"
+    end
+
+
+    v.previewcomment="<div></div>"
+
+    v.daxcomm=s.mysql_select("SELECT id FROM socials_comments WHERE updateid='v.postid' ORDER BY id DESC LIMIT 1")
+    if not v.daxcomm false
+      v.comment=f.generate_social_comment_micro(v.daxcomm)
+      v.previewcomment="<div style='margin-bottom:8px;'>v.comment</div><a href='/update/v.linkcode' class='post_viewall'>View all comments</a>"
+    end
+
+    v.displaycontent="<div style='border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 65px;float:left;height:65px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h2 style='margin-bottom:0px;font-weight:300;display: inline-block;margin-top: 0px;'>v.usr_name</h2></a>v.actions<h3 style='margin-top: 4px;margin-bottom: 5px;'>v.generate_tags</h3><a href='/update/v.linkcode'>Posted v.dateago</a></div><div style='max-width:100%;max-height:900px;overflow:hidden;'>v.content</div>v.bottomlink<div style='border-top: 2px solid #f1f1f1;padding-top:10px;'>v.emotegenerated <a href="javascript:modl('/actions/post_social_comment?post=v.linkcode');" class='post_make_comment'>Make comment</a></div>v.previewcomment<div></div>"
+
+    if v.rules=="ajax"
+      t.content("v.displaycontent")
+    else
+      t.content_middle("<bubble>v.displaycontent</bubble>")
+    end
+  end
+
+  v.data_id=""
+  v.data_con=""
+  v.content=""
+}
+
+f.generate_social_update_full{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_updates WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.editdate=v.data_id[date_updated]
+    v.type=v.data_id[type]
+    v.rating=v.data_id[rating]
+    v.linkcode=v.data_id[linkcode]
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    if not v.editdate==0
+      v.dateeditago=s.convert_timestamp_ago(v.editdate,"true")
+      v.dateago="v.dateago, edited v.dateeditago"
+    end
+
+    v.data_con=s.mysql_select("SELECT * FROM socials_updates_contents WHERE post='v.postid' LIMIT 1")
+    if not v.data_con false
+      v.content=v.data_con[content]
+      v.content=s.base64_decode(v.content)
+      v.content=s.string_clean(v.content)
+      v.content=f.clean_md(v.content)
+      v.content=s.markdown(v.content)
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+    v.usr_mc=f.get_user_mc_name(v.user)
+    v.usr_type=f.get_user_type(v.user)
+
+    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+
+    if v.usr_type=="admin"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
+    end
+    if v.usr_type=="mod"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
+    end
+    if v.usr_type=="owner"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
+    end
+    if v.usr_type=="bug"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
+    end
+    if v.usr_type=="build"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
+    end
+    if v.usr_type=="buildlead"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
+    end
+
+    v.actions="<div></div>"
+
+    if v.user==sv.user_id
+      v.actions="<div class='post_edit'><a href=\"javascript:modl('/actions/update_social_update?post=v.postid');\">Edit</a></div><div class='post_delete'><a href=\"javascript:modl_confirm('Delete social update?','If you do this it cant be undone...','/actions/delete_social_update?post=v.postid');\">Delete</a></div>"
+    end
+
+    v.emotegenerated=f.generate_social_update_emotes(v.postid)
+
+    t.content_middle("<bubble><div style='border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 65px;float:left;height:65px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h2 style='margin-bottom:0px;font-weight:300;display: inline-block;margin-top: 0px;'>v.usr_name</h2></a>v.actions<h3 style='margin-top: 4px;margin-bottom: 5px;'>v.generate_tags</h3>Posted v.dateago</div><div style='max-width:100%;overflow:hidden;'>v.content</div><div style='border-top: 2px solid #f1f1f1;padding-top:10px;'>v.emotegenerated</div></bubble>")
+
+    t.content_middle("<h1 style='margin-top:50px;margin-bottom:15px;'>Comments</h1><h2 style='margin-bottom:20px;'><a href="javascript:modl('/actions/post_social_comment?post=v.linkcode');" class='post_make_comment_full'>Make comment</a></h2>")
+
+    v.data_posts=s.mysql_select("SELECT id,user,linkcode FROM socials_comments WHERE updateid='v.postid' ORDER BY id DESC LIMIT 100")
+    if not v.data_posts false
+      if set v.data_posts[user]
+        f.generate_social_comment_ajax(v.data_posts)
+      else
+        s.array_loop("generate_social_comment_ajax",v.data_posts)
+      end
+    else
+      t.content_middle("<bubble><div class='message_warning'>We have no comments to show</div></bubble>")
+    end
+  end
+}
+
+f.generate_social_update_emotes{
+  v.postid=v.function_passed[0]
+
+  v.emote_heart=f.get_social_update_emote(v.postid,"heart")
+  v.emote_cheese=f.get_social_update_emote(v.postid,"cheese")
+  v.emote_shocked=f.get_social_update_emote(v.postid,"shocked")
+  v.emote_thinking=f.get_social_update_emote(v.postid,"thinking")
+  v.myemote=f.get_social_update_myemote(v.postid)
+
+  v.emote_set_heart="notset"
+  v.emote_set_cheese="notset"
+  v.emote_set_shocked="notset"
+  v.emote_set_thinking="notset"
+
+  s.echo("<div id='post_emote_case_v.postid'>")
+  if not v.myemote false
+    if set v.myemote
+      if v.myemote=="heart"
+        v.emote_set_heart="set"
+      end
+      if v.myemote=="cheese"
+        v.emote_set_cheese="set"
+      end
+      if v.myemote=="shocked"
+        v.emote_set_shocked="set"
+      end
+      if v.myemote=="thinking"
+        v.emote_set_thinking="set"
+      end
+    end
+  end
+
+  s.echo("<div class='post_emote v.emote_set_heart'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=heart','post_emote_case_v.postid')\"><img src='/resources/img/emotes/heart.png'></a><number>v.emote_heart</number></div>")
+  s.echo("<div class='post_emote v.emote_set_cheese'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=cheese','post_emote_case_v.postid')\"><img src='/resources/img/emotes/cheese.png'></a><number>v.emote_cheese</number></div>")
+  s.echo("<div class='post_emote v.emote_set_shocked'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=shocked','post_emote_case_v.postid')\"><img src='/resources/img/emotes/shocked.png'></a><number>v.emote_shocked</number></div>")
+  s.echo("<div class='post_emote v.emote_set_thinking'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=thinking','post_emote_case_v.postid')\"><img src='/resources/img/emotes/thinking.png'></a><number>v.emote_thinking</number></div>")
+
+  s.echo("</div>")
+}
+
+f.generate_social_comment_emotes{
+  v.postid=v.function_passed[0]
+
+  v.emote_heart=f.get_social_comment_emote(v.postid,"heart")
+  v.emote_cheese=f.get_social_comment_emote(v.postid,"cheese")
+  v.emote_shocked=f.get_social_comment_emote(v.postid,"shocked")
+  v.emote_thinking=f.get_social_comment_emote(v.postid,"thinking")
+  v.myemote=f.get_social_comment_myemote(v.postid)
+
+  v.emote_set_heart="notset"
+  v.emote_set_cheese="notset"
+  v.emote_set_shocked="notset"
+  v.emote_set_thinking="notset"
+
+  s.echo("<div id='comment_emote_case_v.postid'>")
+  if not v.myemote false
+    if set v.myemote
+      if v.myemote=="heart"
+        v.emote_set_heart="set"
+      end
+      if v.myemote=="cheese"
+        v.emote_set_cheese="set"
+      end
+      if v.myemote=="shocked"
+        v.emote_set_shocked="set"
+      end
+      if v.myemote=="thinking"
+        v.emote_set_thinking="set"
+      end
+    end
+  end
+
+  s.echo("<div class='post_emote v.emote_set_heart'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=heart','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/heart.png'></a><number>v.emote_heart</number></div>")
+  s.echo("<div class='post_emote v.emote_set_cheese'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=cheese','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/cheese.png'></a><number>v.emote_cheese</number></div>")
+  s.echo("<div class='post_emote v.emote_set_shocked'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=shocked','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/shocked.png'></a><number>v.emote_shocked</number></div>")
+  s.echo("<div class='post_emote v.emote_set_thinking'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=thinking','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/thinking.png'></a><number>v.emote_thinking</number></div>")
+
+  s.echo("</div>")
+}
+
+f.generate_social_comment_micro{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_contents WHERE comment='v.postid' LIMIT 1")
+    if not v.data_con false
+      v.content=v.data_con[content]
+      v.content=s.base64_decode(v.content)
+      v.content=s.string_clean(v.content)
+      v.content=f.clean_md(v.content)
+
+	    v.content=s.string_trim_utf8(v.content,200)
+      v.size_after=s.string_length(v.content)
+      if v.size_after>=195
+        v.content="v.content&hellip;"
+      else
+        v.bottomlink="<div></div>"
+      end
+
+      v.content=s.markdown(v.content)
+      v.content=s.string_brokenhtml(v.content)
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+    v.usr_mc=f.get_user_mc_name(v.user)
+    v.usr_type=f.get_user_type(v.user)
+
+    v.generate_tags="<div class='inlinebutton-info-minecraft' style='font-size: 8px;'>v.usr_mc</div>"
+    if v.usr_type=="admin"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin' style='font-size: 8px;'>Admin</div>"
+    end
+    if v.usr_type=="mod"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod' style='font-size: 8px;'>Mod</div>"
+    end
+    if v.usr_type=="owner"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner' style='font-size: 8px;'>Owner</div>"
+    end
+    if v.usr_type=="bug"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug' style='font-size: 8px;'>Bug Finder</div>"
+    end
+    if v.usr_type=="build"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build' style='font-size: 8px;'>Build Squad</div>"
+    end
+    if v.usr_type=="buildlead"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead' style='font-size: 8px;'>Build Team Lead</div>"
+    end
+
+    if notset v.content
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+    if v.content==""
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+
+    v.displaycontent="<div style='padding-left: 20px;'><div style='margin-top: 10px;padding-bottom: 10px;padding-top: 10px;'><avatar style=\"border-radius: 35px;width: 35px;float:left;height:35px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h3 style='margin-bottom:0px;font-weight:300;margin-top: 0px;'>v.usr_name v.generate_tags</h3></a><div style='font-size:10px;'>Posted v.dateago</div></div><div style='max-width:100%;max-height:900px;overflow:hidden;margin-top: -15px;margin-bottom: -10px;'>v.content</div></div>"
+
+    s.echo("v.displaycontent")
+  end
+
+  v.data_id=""
+  v.data_con=""
+  v.content=""
+}
+
+f.generate_social_comment_small{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.rules=v.function_passed[1]
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.editdate=v.data_id[date_updated]
+    v.rating=v.data_id[rating]
+    v.linkcode=v.data_id[linkcode]
+    v.parentlinkcode=f.get_social_update_linkcode(v.data_id[updateid])
+    v.replyid=v.data_id[replyto]
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    if not v.editdate==0
+      v.dateeditago=s.convert_timestamp_ago(v.editdate,"true")
+      v.dateago="v.dateago, edited v.dateeditago"
+    end
+
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_contents WHERE comment='v.postid' LIMIT 1")
+    if not v.data_con false
+      v.content=v.data_con[content]
+      v.content=s.base64_decode(v.content)
+      v.content=s.string_clean(v.content)
+      v.content=f.clean_md(v.content)
+
+	    v.content=s.string_trim_utf8(v.content,420)
+      v.size_after=s.string_length(v.content)
+      if v.size_after>=415
+        v.content="v.content&hellip;"
+        v.bottomlink="<p><a href='/comment/v.linkcode' class='post_viewall'>View full comment</a></p>"
+      else
+        v.bottomlink="<div></div>"
+      end
+
+      v.content=s.markdown(v.content)
+      v.content=s.string_brokenhtml(v.content)
+    end
+
+    //generate reply quote preview
+    v.conreply="<div></div>"
+    if not v.replyid=="0"
+      v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
+      if not v.data_crparent false
+        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_contents WHERE comment='v.replyid' LIMIT 1")
+        if not v.data_creply false
+          v.conreply=v.data_creply[content]
+          v.conreply=s.base64_decode(v.conreply)
+          v.conreply=s.string_clean(v.conreply)
+          v.conreply=f.clean_md(v.conreply)
+
+    	    v.conreply=s.string_trim_utf8(v.conreply,320)
+          v.size_after=s.string_length(v.conreply)
+          if v.size_after>=315
+            v.conreply="v.content&hellip;"
+          end
+
+          v.conreply=s.markdown(v.conreply)
+          v.conreply=s.string_brokenhtml(v.conreply)
+          v.conlinkcode=f.get_social_comment_linkcode(v.data_crparent[id])
+          v.conlinkuser=f.get_user_name_full(v.data_crparent[user])
+          v.conreply="<div style='padding:10px;padding-top:5px;padding-bottom:5px;border-radius:5px;background:#f1f1f1;margin-top:10px;margin-bottom:10px;'>v.conreply<p><a href='/comment/v.conlinkcode' class='post_viewall'>View original comment by v.conlinkuser</a></p></div>"
+        end
+      end
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+    v.usr_mc=f.get_user_mc_name(v.user)
+    v.usr_type=f.get_user_type(v.user)
+
+    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+
+    if v.usr_type=="admin"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
+    end
+    if v.usr_type=="mod"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
+    end
+    if v.usr_type=="owner"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
+    end
+    if v.usr_type=="bug"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
+    end
+    if v.usr_type=="build"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
+    end
+    if v.usr_type=="buildlead"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
+    end
+
+    v.actions="<div></div>"
+
+    if v.user==sv.user_id
+      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.postid');\">Edit</a></div>"
+    end
+
+    v.emotegenerated=f.generate_social_comment_emotes(v.postid)
+
+    if notset v.content
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+
+    if v.content==""
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+
+    v.displaycontent="<div style='border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 65px;float:left;height:65px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h2 style='margin-bottom:0px;font-weight:300;display: inline-block;margin-top: 0px;'>v.usr_name</h2></a>v.actions<h3 style='margin-top: 4px;margin-bottom: 5px;'>v.generate_tags</h3><a href='/comment/v.linkcode'>Posted v.dateago</a></div><div style='max-width:100%;max-height:900px;overflow:hidden;'>v.content</div>v.bottomlink v.conreply<div style='border-top: 2px solid #f1f1f1;padding-top:10px;'>v.emotegenerated<a href="javascript:modl('/actions/post_social_comment?post=v.parentlinkcode&reply=v.linkcode');" class='comment_reply'>Reply to comment</a></div>"
+
+    if v.rules=="ajax"
+      t.content("v.displaycontent")
+    else
+      t.content_middle("<bubble>v.displaycontent</bubble>")
+    end
+  end
+
+  v.data_id=""
+  v.data_con=""
+  v.content=""
+}
+
+f.generate_social_comment_full{
+  v.postid=v.function_passed[0]
+  if set v.postid[id]
+    v.postid=v.postid[id]
+  end
+
+  v.rules=v.function_passed[1]
+
+  v.data_id=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.postid' LIMIT 1")
+  if not v.data_id false
+    v.user=v.data_id[user]
+    v.date=v.data_id[date]
+    v.editdate=v.data_id[date_updated]
+    v.rating=v.data_id[rating]
+    v.linkcode=v.data_id[linkcode]
+    v.replyid=v.data_id[replyto]
+    v.parentlinkcode=f.get_social_update_linkcode(v.data_id[updateid])
+    v.dateago=s.convert_timestamp_ago(v.date,"true")
+
+    if not v.editdate==0
+      v.dateeditago=s.convert_timestamp_ago(v.editdate,"true")
+      v.dateago="v.dateago, edited v.dateeditago"
+    end
+
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_contents WHERE comment='v.postid' LIMIT 1")
+    if not v.data_con false
+      v.content=v.data_con[content]
+      v.content=s.base64_decode(v.content)
+      v.content=s.string_clean(v.content)
+      v.content=f.clean_md(v.content)
+
+      v.content=s.markdown(v.content)
+      v.content=s.string_brokenhtml(v.content)
+    end
+
+    //generate reply quote preview
+    v.conreply="<div></div>"
+    if not v.replyid=="0"
+      v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
+      if not v.data_crparent false
+        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_contents WHERE comment='v.replyid' LIMIT 1")
+        if not v.data_creply false
+          v.conreply=v.data_creply[content]
+          v.conreply=s.base64_decode(v.conreply)
+          v.conreply=s.string_clean(v.conreply)
+          v.conreply=f.clean_md(v.conreply)
+
+    	    v.conreply=s.string_trim_utf8(v.conreply,320)
+          v.size_after=s.string_length(v.conreply)
+          if v.size_after>=315
+            v.conreply="v.content&hellip;"
+          end
+
+          v.conreply=s.markdown(v.conreply)
+          v.conreply=s.string_brokenhtml(v.conreply)
+          v.conlinkcode=f.get_social_comment_linkcode(v.data_crparent[id])
+          v.conlinkuser=f.get_user_name_full(v.data_crparent[user])
+          v.conreply="<div style='padding:10px;padding-top:5px;padding-bottom:5px;border-radius:5px;background:#f1f1f1;margin-top:10px;margin-bottom:10px;'>v.conreply<p><a href='/comment/v.conlinkcode' class='post_viewall'>View original comment by v.conlinkuser</a></p></div>"
+        end
+      end
+    end
+
+    v.usr_name=f.get_user_name_full(v.user)
+    v.usr_username=f.get_user_username(v.user)
+    v.usr_image=f.get_user_image(v.user)
+    v.usr_mc=f.get_user_mc_name(v.user)
+    v.usr_type=f.get_user_type(v.user)
+
+    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+
+    if v.usr_type=="admin"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
+    end
+    if v.usr_type=="mod"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
+    end
+    if v.usr_type=="owner"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
+    end
+    if v.usr_type=="bug"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
+    end
+    if v.usr_type=="build"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
+    end
+    if v.usr_type=="buildlead"
+      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
+    end
+
+    v.actions="<div></div>"
+
+    if v.user==sv.user_id
+      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.postid');\">Edit</a></div>"
+    end
+
+    v.emotegenerated=f.generate_social_comment_emotes(v.postid)
+
+    if notset v.content
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+
+    if v.content==""
+      v.content="<p>This comment cant be displayed.</p>"
+    end
+
+    v.displaycontent="<div style='border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 65px;float:left;height:65px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h2 style='margin-bottom:0px;font-weight:300;display: inline-block;margin-top: 0px;'>v.usr_name</h2></a>v.actions<h3 style='margin-top: 4px;margin-bottom: 5px;'>v.generate_tags</h3><a href='/comment/v.linkcode'>Posted v.dateago</a></div><div style='max-width:100%;overflow:hidden;'>v.content</div>v.conreply<div style='border-top: 2px solid #f1f1f1;padding-top:10px;'>v.emotegenerated<a href="javascript:modl('/actions/post_social_comment?post=v.parentlinkcode&reply=v.linkcode');" class='comment_reply'>Reply to comment</a></div>"
+
+    if v.rules=="ajax"
+      t.content("v.displaycontent")
+    else
+      t.content_middle("<bubble>v.displaycontent</bubble>")
+    end
+  end
+
+  v.data_id=""
+  v.data_con=""
+  v.content=""
+}

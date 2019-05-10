@@ -1,0 +1,318 @@
+f.get_user_username{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_username",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT username FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_username",v.userid,v.data_db[username])
+    s.echo("v.data_db[username]")
+  end
+}
+
+f.get_user_mc_name{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_mc_name",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT mc_name FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_mc_name",v.userid,v.data_db[mc_name])
+    s.echo("v.data_db[mc_name]")
+  end
+}
+
+f.get_user_image{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+  v.usersusername=f.get_user_username(v.userid)
+  v.timecode=0
+
+  v.cachecheck=f.cache_string_fetch("user_image_timecode",v.userid)
+  if not v.cachecheck=="cachnofind"
+    v.timecode=v.cachecheck
+  else
+    v.data_db=s.mysql_select("SELECT date FROM accounts_images WHERE user='v.userid' LIMIT 1")
+    if not v.data_db false
+      v.timecode=v.data_db[date]
+      f.cache_string_save("user_image_timecode",v.userid,v.data_db[date])
+    end
+  end
+  v.timecode=s.string_replace("&#46;",".","v.timecode&#46;jpg")
+  s.echo("//gv.system_domain/images/account_image/v.usersusername/v.timecode")
+}
+
+f.get_user_media_photos{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+  v.foundcount=0
+
+  v.cachecheck=f.cache_string_fetch("user_media_photos",v.userid)
+  if not v.cachecheck=="cachnofind"
+    v.foundcount=v.cachecheck
+  else
+    v.data_db=s.mysql_select("SELECT date FROM storage_images WHERE user='v.userid'")
+    if not v.data_db false
+      v.number=s.array_count(v.data_db)
+      v.foundcount=v.number
+      f.cache_string_save("user_media_photos",v.userid,v.number)
+    end
+  end
+  s.echo(v.foundcount)
+}
+
+
+f.get_user_banner{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+  v.usersusername=f.get_user_username(v.userid)
+  v.timecode=0
+
+  v.cachecheck=f.cache_string_fetch("user_banner_timecode",v.userid)
+  if not v.cachecheck=="cachnofind"
+    v.timecode=v.cachecheck
+  else
+    v.data_db=s.mysql_select("SELECT date FROM accounts_banners WHERE user='v.userid' LIMIT 1")
+    if not v.data_db false
+      v.timecode=v.data_db[date]
+      f.cache_string_save("user_banner_timecode",v.userid,v.data_db[date])
+    end
+  end
+  if v.userid=="4"
+    s.echo("//gv.system_domain/resources/img/glitch_banner.gif")
+  else
+    v.timecode=s.string_replace("&#46;",".","v.timecode&#46;jpg")
+    s.echo("//gv.system_domain/images/account_banner/v.usersusername/v.timecode")
+  end
+}
+
+
+f.get_user_id{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_username
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_id",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT id FROM accounts WHERE username='v.userid' LIMIT 1")
+    f.cache_string_save("user_id",v.userid,v.data_db[id])
+    s.echo("v.data_db[id]")
+  end
+}
+
+
+f.get_user_name_full{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_name_full",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT first_name,last_name FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_name_full",v.userid,"v.data_db[first_name] v.data_db[last_name]")
+    s.echo("v.data_db[first_name] v.data_db[last_name]")
+  end
+}
+
+f.get_user_name_first{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_name_first",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT first_name FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_name_first",v.userid,v.data_db[first_name])
+    s.echo("v.data_db[first_name]")
+  end
+}
+
+f.get_user_name_last{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_name_last",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT last_name FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_name_last",v.userid,v.data_db[last_name])
+    s.echo("v.data_db[last_name]")
+  end
+}
+
+f.get_user_type{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_type",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT type FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_type",v.userid,v.data_db[type])
+    s.echo("v.data_db[type]")
+  end
+}
+
+f.get_user_permissions_post_wiki{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.allowed=false
+  v.type=f.get_user_type(v.userid)
+
+  if v.type=="admin"
+    v.allowed=true
+  end
+
+  if v.type=="owner"
+    v.allowed=true
+  end
+
+  s.echo(v.allowed)
+}
+
+f.get_user_email{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_email",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT email FROM accounts WHERE id='v.userid' LIMIT 1")
+    f.cache_string_save("user_email",v.userid,v.data_db[email])
+    s.echo("v.data_db[email]")
+  end
+}
+
+f.get_user_following{
+  v.user=v.function_passed[0]
+  v.following=v.function_passed[1]
+
+  v.cachecheck=f.cache_string_fetch("user_following","v.user v.following")
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT id FROM accounts_followings WHERE user='v.user' AND following='v.following' LIMIT 1")
+    if not v.data_db false
+      s.echo("true")
+      f.cache_string_save("user_following","v.user v.following","true")
+    else
+      s.echo("false")
+      f.cache_string_save("user_following","v.user v.following","false")
+    end
+  end
+}
+
+f.get_user_followlist{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_followlist",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT GROUP_CONCAT(DISTINCT following SEPARATOR ', ') AS follow FROM accounts_followings WHERE user='v.userid' GROUP BY user")
+    if not v.data_db false
+      s.echo("v.userid, v.data_db[follow]")
+      f.cache_string_save("user_followlist",v.userid,"v.userid, v.data_db[follow]")
+    else
+      s.echo("v.userid")
+      f.cache_string_save("user_followlist",v.userid,v.userid)
+    end
+  end
+}
+
+f.get_user_stafflist{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_stafflist",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT GROUP_CONCAT(DISTINCT id SEPARATOR ', ') AS follow FROM accounts WHERE type!='normal' AND type!='new'")
+    if not v.data_db false
+      s.echo("v.data_db[follow]")
+      f.cache_string_save("user_stafflist",v.userid,"v.userid, v.data_db[follow]")
+    else
+      s.echo("0")
+      f.cache_string_save("user_stafflist",v.userid,v.userid)
+    end
+  end
+}
+
+f.get_user_friends{
+  v.user=v.function_passed[0]
+  v.following=v.function_passed[1]
+
+  v.cachecheck=f.cache_string_fetch("user_friends","v.user v.following")
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.data_db=s.mysql_select("SELECT id FROM accounts_followings WHERE (user='v.user' AND following='v.following') AND (following='v.user' AND user='v.following') LIMIT 2")
+    if not v.data_db false
+      if set v.data_db[id]
+        s.echo("true")
+        f.cache_string_save("user_friends","v.user v.following","true")
+      else
+        s.echo("false")
+        f.cache_string_save("user_friends","v.user v.following","false")
+      end
+    else
+      s.echo("false")
+      f.cache_string_save("user_friends","v.user v.following","false")
+    end
+  end
+}
