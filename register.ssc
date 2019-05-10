@@ -16,11 +16,6 @@ if notset pv.username
 else
 	t.content("<h3>Username</h3><input type=\"text\" name=\"username\" value=\"pv.username\">")
 end
-if notset pv.mcname
-	t.content("<h3>Minecraft Gamertag</h3><input type=\"text\" name=\"mcname\">")
-else
-	t.content("<h3>Minecraft Gamertag</h3><input type=\"text\" name=\"mcname\" value=\"pv.mcname\">")
-end
 if notset pv.email
 	t.content("<h3>Email</h3><input type=\"text\" name=\"email\">")
 else
@@ -85,17 +80,6 @@ f.user_register{
 		v.message="This username is already taken"
 	end
 
-	//Check if mc username taken already
-	v.mcname=pv.mcname
-	v.mcname=s.string_clean("v.mcname")
-	v.mcname=s.string_username("v.mcname")
-	v.mcname=s.string_trim_utf8("v.mcname","90")
-	v.datac_db=s.mysql_select("SELECT * FROM accounts WHERE mc_user='v.mcname' LIMIT 1")
-	if set v.datac_db[mcname]
-		v.valid=false
-		v.message="This mineraft username is already in use"
-	end
-
 	//validate data first
 	if v.valid true
 		v.username=pv.username
@@ -103,9 +87,6 @@ f.user_register{
 		v.username=s.string_lowercase("v.username")
 		v.username=s.string_username("v.username")
 		v.username=s.string_trim_utf8("v.username","90")
-		v.mcname=pv.mcname
-		v.mcname=s.string_clean("v.mcname")
-		v.mcname=s.string_trim_utf8("v.mcname","90")
 		v.password=pv.password
 		v.password=s.string_clean("v.password")
 		v.password=s.password_hash(v.password)
@@ -123,9 +104,9 @@ f.user_register{
 		//Register account
 
 		if set pv.lastname
-			v.query=s.mysql_insert("INSERT INTO accounts(username,first_name,last_name,date,email,password,mc_name) VALUES('v.username','v.firstname','v.lastname','v.date','v.email','v.password','v.mcname')")
+			v.query=s.mysql_insert("INSERT INTO accounts(username,first_name,last_name,date,email,password) VALUES('v.username','v.firstname','v.lastname','v.date','v.email','v.password')")
 		else
-			v.query=s.mysql_insert("INSERT INTO accounts(username,first_name,last_name,date,email,password,mc_name) VALUES('v.username','v.firstname','','v.date','v.email','v.password','v.mcname')")
+			v.query=s.mysql_insert("INSERT INTO accounts(username,first_name,last_name,date,email,password) VALUES('v.username','v.firstname','','v.date','v.email','v.password')")
 		end
 		if not v.query false
 			s.header("Location: /login")
