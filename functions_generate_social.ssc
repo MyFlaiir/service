@@ -121,10 +121,9 @@ f.generate_social_update_small{
     v.usr_name=f.get_user_name_full(v.user)
     v.usr_username=f.get_user_username(v.user)
     v.usr_image=f.get_user_image(v.user)
-    v.usr_mc=f.get_user_mc_name(v.user)
     v.usr_type=f.get_user_type(v.user)
 
-    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+    v.generate_tags="<text></text>"
 
     if v.usr_type=="admin"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
@@ -132,17 +131,8 @@ f.generate_social_update_small{
     if v.usr_type=="mod"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
     end
-    if v.usr_type=="owner"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
-    end
     if v.usr_type=="bug"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
-    end
-    if v.usr_type=="build"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
-    end
-    if v.usr_type=="buildlead"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
     end
 
     v.actions="<div></div>"
@@ -217,10 +207,9 @@ f.generate_social_update_full{
     v.usr_name=f.get_user_name_full(v.user)
     v.usr_username=f.get_user_username(v.user)
     v.usr_image=f.get_user_image(v.user)
-    v.usr_mc=f.get_user_mc_name(v.user)
     v.usr_type=f.get_user_type(v.user)
 
-    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+    v.generate_tags="<text></text>"
 
     if v.usr_type=="admin"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
@@ -228,17 +217,8 @@ f.generate_social_update_full{
     if v.usr_type=="mod"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
     end
-    if v.usr_type=="owner"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
-    end
     if v.usr_type=="bug"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
-    end
-    if v.usr_type=="build"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
-    end
-    if v.usr_type=="buildlead"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
     end
 
     v.actions="<div></div>"
@@ -273,12 +253,14 @@ f.generate_social_update_emotes{
   v.emote_cheese=f.get_social_update_emote(v.postid,"cheese")
   v.emote_shocked=f.get_social_update_emote(v.postid,"shocked")
   v.emote_thinking=f.get_social_update_emote(v.postid,"thinking")
+  v.emote_laugh=f.get_social_update_emote(v.postid,"laugh")
   v.myemote=f.get_social_update_myemote(v.postid)
 
   v.emote_set_heart="notset"
   v.emote_set_cheese="notset"
   v.emote_set_shocked="notset"
   v.emote_set_thinking="notset"
+  v.emote_set_laugh="notset"
 
   s.echo("<div id='post_emote_case_v.postid'>")
   if not v.myemote false
@@ -295,6 +277,9 @@ f.generate_social_update_emotes{
       if v.myemote=="thinking"
         v.emote_set_thinking="set"
       end
+      if v.myemote=="laugh"
+        v.emote_set_laugh="set"
+      end
     end
   end
 
@@ -302,6 +287,7 @@ f.generate_social_update_emotes{
   s.echo("<div class='post_emote v.emote_set_cheese'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=cheese','post_emote_case_v.postid')\"><img src='/resources/img/emotes/cheese.png'></a><number>v.emote_cheese</number></div>")
   s.echo("<div class='post_emote v.emote_set_shocked'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=shocked','post_emote_case_v.postid')\"><img src='/resources/img/emotes/shocked.png'></a><number>v.emote_shocked</number></div>")
   s.echo("<div class='post_emote v.emote_set_thinking'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=thinking','post_emote_case_v.postid')\"><img src='/resources/img/emotes/thinking.png'></a><number>v.emote_thinking</number></div>")
+  s.echo("<div class='post_emote v.emote_set_laugh'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.postid&emote=laugh','post_emote_case_v.postid')\"><img src='/resources/img/emotes/laugh.png'></a><number>v.emote_laugh</number></div>")
 
   s.echo("</div>")
 }
@@ -313,12 +299,14 @@ f.generate_social_comment_emotes{
   v.emote_cheese=f.get_social_comment_emote(v.postid,"cheese")
   v.emote_shocked=f.get_social_comment_emote(v.postid,"shocked")
   v.emote_thinking=f.get_social_comment_emote(v.postid,"thinking")
+  v.emote_laugh=f.get_social_comment_emote(v.postid,"laugh")
   v.myemote=f.get_social_comment_myemote(v.postid)
 
   v.emote_set_heart="notset"
   v.emote_set_cheese="notset"
   v.emote_set_shocked="notset"
   v.emote_set_thinking="notset"
+  v.emote_set_laugh="notset"
 
   s.echo("<div id='comment_emote_case_v.postid'>")
   if not v.myemote false
@@ -335,6 +323,9 @@ f.generate_social_comment_emotes{
       if v.myemote=="thinking"
         v.emote_set_thinking="set"
       end
+      if v.myemote=="laugh"
+        v.emote_set_laugh="set"
+      end
     end
   end
 
@@ -342,6 +333,7 @@ f.generate_social_comment_emotes{
   s.echo("<div class='post_emote v.emote_set_cheese'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=cheese','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/cheese.png'></a><number>v.emote_cheese</number></div>")
   s.echo("<div class='post_emote v.emote_set_shocked'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=shocked','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/shocked.png'></a><number>v.emote_shocked</number></div>")
   s.echo("<div class='post_emote v.emote_set_thinking'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=thinking','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/thinking.png'></a><number>v.emote_thinking</number></div>")
+  s.echo("<div class='post_emote v.emote_set_laugh'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.postid&emote=laugh','comment_emote_case_v.postid')\"><img src='/resources/img/emotes/laugh.png'></a><number>v.emote_laugh</number></div>")
 
   s.echo("</div>")
 }
@@ -380,27 +372,17 @@ f.generate_social_comment_micro{
     v.usr_name=f.get_user_name_full(v.user)
     v.usr_username=f.get_user_username(v.user)
     v.usr_image=f.get_user_image(v.user)
-    v.usr_mc=f.get_user_mc_name(v.user)
     v.usr_type=f.get_user_type(v.user)
 
-    v.generate_tags="<div class='inlinebutton-info-minecraft' style='font-size: 8px;'>v.usr_mc</div>"
+    v.generate_tags="<text></text>"
     if v.usr_type=="admin"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin' style='font-size: 8px;'>Admin</div>"
     end
     if v.usr_type=="mod"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod' style='font-size: 8px;'>Mod</div>"
     end
-    if v.usr_type=="owner"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner' style='font-size: 8px;'>Owner</div>"
-    end
     if v.usr_type=="bug"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug' style='font-size: 8px;'>Bug Finder</div>"
-    end
-    if v.usr_type=="build"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build' style='font-size: 8px;'>Build Squad</div>"
-    end
-    if v.usr_type=="buildlead"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead' style='font-size: 8px;'>Build Team Lead</div>"
     end
 
     if notset v.content
@@ -494,10 +476,9 @@ f.generate_social_comment_small{
     v.usr_name=f.get_user_name_full(v.user)
     v.usr_username=f.get_user_username(v.user)
     v.usr_image=f.get_user_image(v.user)
-    v.usr_mc=f.get_user_mc_name(v.user)
     v.usr_type=f.get_user_type(v.user)
 
-    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+    v.generate_tags="<text></text>"
 
     if v.usr_type=="admin"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
@@ -505,17 +486,8 @@ f.generate_social_comment_small{
     if v.usr_type=="mod"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
     end
-    if v.usr_type=="owner"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
-    end
     if v.usr_type=="bug"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
-    end
-    if v.usr_type=="build"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
-    end
-    if v.usr_type=="buildlead"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
     end
 
     v.actions="<div></div>"
@@ -613,10 +585,9 @@ f.generate_social_comment_full{
     v.usr_name=f.get_user_name_full(v.user)
     v.usr_username=f.get_user_username(v.user)
     v.usr_image=f.get_user_image(v.user)
-    v.usr_mc=f.get_user_mc_name(v.user)
     v.usr_type=f.get_user_type(v.user)
 
-    v.generate_tags="<div class='inlinebutton-info-minecraft'>v.usr_mc</div>"
+    v.generate_tags="<text></text>"
 
     if v.usr_type=="admin"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-admin'>Admin</div>"
@@ -624,17 +595,8 @@ f.generate_social_comment_full{
     if v.usr_type=="mod"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
     end
-    if v.usr_type=="owner"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
-    end
     if v.usr_type=="bug"
       v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
-    end
-    if v.usr_type=="build"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
-    end
-    if v.usr_type=="buildlead"
-      v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
     end
 
     v.actions="<div></div>"

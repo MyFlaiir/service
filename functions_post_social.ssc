@@ -27,18 +27,6 @@ f.post_social_update{
       v.rating=15
       v.maxsize=4000
     end
-    if v.usertype=="build"
-      v.rating=15
-      v.maxsize=4000
-    end
-    if v.usertype=="buildlead"
-      v.rating=15
-      v.maxsize=4000
-    end
-    if v.usertype=="owner"
-      v.rating=50
-      v.maxsize=8000
-    end
 
     //encode content and add limits
     v.content=s.string_trim_utf8(v.content,v.maxsize)
@@ -77,17 +65,8 @@ f.post_social_update_emote{
   if v.usertype=="bug"
     v.rating=20
   end
-  if v.usertype=="build"
-    v.rating=15
-  end
-  if v.usertype=="buildlead"
-    v.rating=15
-  end
   if v.usertype=="admin"
     v.rating=40
-  end
-  if v.usertype=="owner"
-    v.rating=80
   end
 
   if f.check_social_update(v.post) true
@@ -126,17 +105,8 @@ f.post_social_comment_emote{
   if v.usertype=="bug"
     v.rating=20
   end
-  if v.usertype=="build"
-    v.rating=15
-  end
-  if v.usertype=="buildlead"
-    v.rating=15
-  end
   if v.usertype=="admin"
     v.rating=40
-  end
-  if v.usertype=="owner"
-    v.rating=80
   end
 
   if f.check_social_comment(v.post) true
@@ -178,21 +148,9 @@ f.post_social_comment{
       v.rating=10
       v.maxsize=2000
     end
-    if v.usertype=="build"
-      v.rating=15
-      v.maxsize=4000
-    end
-    if v.usertype=="buildlead"
-      v.rating=15
-      v.maxsize=4000
-    end
     if v.usertype=="admin"
       v.rating=15
       v.maxsize=4000
-    end
-    if v.usertype=="owner"
-      v.rating=50
-      v.maxsize=8000
     end
 
     //encode content and add limits
