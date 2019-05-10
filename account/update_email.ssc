@@ -1,0 +1,18 @@
+s.include("/system.ssc")
+s.template("/templates/modl.html")
+f.permission_user_loggedin()
+f.set_pagetitle("Update account email")
+f.set_pagedescription("Make sure the email you use is valid and works, otherwise you may lose access to your account.")
+
+if set pv.email
+  if s.check_valid_email(pv.email) true
+    v.email=s.string_clean(pv.email)
+    v.update=s.mysql_update("UPDATE accounts SET email='v.email' WHERE id='sv.user_id'")
+    t.content("<checkupaction action='notification' type='success'>Account email has been changed.</checkupaction><checkupaction action='redirect'>/account/</checkupaction>")
+  else
+    t.content("<checkupaction action='notification' type='error'>Sorry this email is invalid.</checkupaction><checkupaction action='redirect'>/account/</checkupaction>")
+  end
+else
+  v.current_email=f.get_user_email()
+  t.content('<form enctype="multipart/form-data" action="/account/update_email" method="POST"><input type="text" class="input" name="email" size="100" maxlength="200" value="v.current_email" placeholder="First name"><BR><BR><input id="button" type="submit" value="Update Email"></form>')
+end

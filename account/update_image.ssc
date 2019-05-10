@@ -1,0 +1,34 @@
+s.include("/system.ssc")
+s.template("/templates/modl.html")
+f.permission_user_loggedin()
+f.set_pagetitle("Update account image")
+f.set_pagedescription("Your account image will follow you around the community. Upload a new image below to update it.")
+
+v.file_uploaded=s.file_uploaded()
+if v.file_uploaded true
+
+  v.filename=s.file_uploaded_name()
+  v.timestamp=s.timestamp()
+  v.random = s.random_string(10)
+  v.newname="v.timestamp v.random - v.filename"
+  v.filesaved=s.file_uploaded_save("/resources/tmp/v.newname")
+  if v.filesaved true
+
+    v.resize=s.file_image_resize_square("/resources/tmp/v.newname","300")
+    v.baseimage=s.file_read_base64("/resources/tmp/v.newname")
+    v.delete=s.file_delete("/resources/tmp/v.newname")
+
+    if v.resize true
+      v.timestampuse=s.timestamp()
+      v.queryx=s.mysql_delete("DELETE FROM accounts_images WHERE user='sv.user_id'")
+      v.query=s.mysql_insert("INSERT INTO accounts_images(user, code, date) VALUES('sv.user_id', 'v.baseimage','v.timestampuse')")
+      t.content("<checkupaction action='notification' type='success'>Account image has been updated.</checkupaction><checkupaction action='redirect'>/account/</checkupaction>")
+    else
+      t.content("<checkupaction action='notification' type='error'>Strange, the image scale failed.</checkupaction><checkupaction action='redirect'>/account/</checkupaction>")
+    end
+  else
+    t.content("<checkupaction action='notification' type='error'>We where unable to save the file to disk... Try again in a few minutes...</checkupaction><checkupaction action='redirect'>/account/</checkupaction>")
+  end
+else
+  t.content('<form enctype="multipart/form-data" action="/account/update_image" method="POST"><input name="MAX_FILE_SIZE" value="10000000" type="value" style="display:none;"><input name="file" type="file"><BR><BR><input id="button" type="submit" value="Upload Image"></form>')
+end
