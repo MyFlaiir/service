@@ -2,7 +2,7 @@ s.include("/system.ssc");
 
 if notset sv.user_id
   s.template("/templates/splash.html")
-  t.title("MyFlaiir")
+  t.title("My Flaiir")
 else
 
   f.validate_session()
