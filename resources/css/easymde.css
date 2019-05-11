@@ -622,6 +622,9 @@ span.CodeMirror-selectedtext {
 	border-radius: 3px;
 	cursor: pointer;
   background-color:#ffffff;
+  color:#555555;
+  margin-left:4px;
+  margin-right:4px;
 }
 
 .editor-toolbar button.active, .editor-toolbar button:hover {
