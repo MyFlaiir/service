@@ -1066,8 +1066,23 @@
 	    padding: 20px 20px;
 			background:rgba(244,244,244,1);
 		}
+
+    .editor_icon_giphy{
+      background-image: url('/resources/img/editor/giphy.png') !important;
+      background-repeat: no-repeat;
+      background-size: 25px;
+      background-position: center center;
+    }
+
+    .editor_icon_youtube{
+      background-image: url('/resources/img/editor/youtube.png') !important;
+      background-repeat: no-repeat;
+      background-size: 25px;
+      background-position: center center;
+    }
+
     </style>
-    <link rel="stylesheet" href="/resources/css/simplemde.css">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/dropzone.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <style>
@@ -1146,7 +1161,7 @@
 
     <script src="//assets.nodehost.ca/js/jquery.min.js"></script>
     <script src="/resources/js/dropzone.js?v2"></script>
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script>
     Dropzone.autoDiscover = false;
 
@@ -1187,7 +1202,7 @@
     var current_url=window.location.href;
     var modl_open=false;
     var current_notification_id=1;
-    var simplemde=false;
+    var easymde=false;
 
     $.fn.serializefiles = function() {
     		var obj = $(this);
@@ -1687,8 +1702,8 @@
     }
 
     function modl_content_mde(data){
-      simplemde=false;
-      simplemde = new SimpleMDE({
+      easymde=false;
+      easymde = new EasyMDE({
         element: document.getElementById("js_mde"),
         autosave: false,
         hideIcons: ["guide", "quote"],
@@ -1697,7 +1712,7 @@
 			action: function customFunction(editor){
         modl_content_mde_youtube();
 			},
-			className: "editor_icon_youtube",
+			className: "fab fa-youtube",
 			title: "Youtube Video",
 		}, {
   name: "cus_giphy",
@@ -1751,9 +1766,9 @@ title: "Uploaded photo",
           video_id = video_id.substring(0, ampersandPosition);
         }
       }
-      pos = simplemde.codemirror.getCursor();
-      simplemde.codemirror.setSelection(pos, pos);
-      simplemde.codemirror.replaceSelection("\n\n[![](https://img.youtube.com/vi/" + video_id + "/maxresdefault.jpg)](https://www.youtube.com/watch?v=" + video_id + ")\n");
+      pos = easymde.codemirror.getCursor();
+      easymde.codemirror.setSelection(pos, pos);
+      easymde.codemirror.replaceSelection("\n\n[![](https://img.youtube.com/vi/" + video_id + "/maxresdefault.jpg)](https://www.youtube.com/watch?v=" + video_id + ")\n");
       document.getElementById("mde_editor_custom").innerHTML="";
     }
 
@@ -1793,9 +1808,9 @@ title: "Uploaded photo",
     }
 
     function modl_content_mde_giphy_embed(url){
-      pos = simplemde.codemirror.getCursor();
-      simplemde.codemirror.setSelection(pos, pos);
-      simplemde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
+      pos = easymde.codemirror.getCursor();
+      easymde.codemirror.setSelection(pos, pos);
+      easymde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
       document.getElementById("mde_editor_custom").innerHTML="";
     }
 
@@ -1806,9 +1821,9 @@ title: "Uploaded photo",
     }
 
     function modl_content_mde_photo_embed(url){
-      pos = simplemde.codemirror.getCursor();
-      simplemde.codemirror.setSelection(pos, pos);
-      simplemde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
+      pos = easymde.codemirror.getCursor();
+      easymde.codemirror.setSelection(pos, pos);
+      easymde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
       document.getElementById("mde_editor_custom").innerHTML="";
     }
 
