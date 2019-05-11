@@ -1,9 +1,7 @@
-/**
- * easymde v2.6.0
- * Copyright Jeroen Akkerman
- * @link
- * @license MIT
- */
+#js_mde{
+  display:none;
+}
+
 .CodeMirror {
 	font-family: monospace;
 	height: 300px;
@@ -622,11 +620,12 @@ span.CodeMirror-selectedtext {
 	padding: 0;
 	border: 1px solid transparent;
 	border-radius: 3px;
-	cursor: pointer
+	cursor: pointer;
+  background-color:#ffffff;
 }
 
 .editor-toolbar button.active, .editor-toolbar button:hover {
-
+  background-color:rgba(43, 139, 234, 1);
 }
 
 .editor-toolbar i.separator {
