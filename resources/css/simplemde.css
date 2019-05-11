@@ -128,10 +128,8 @@
     cursor: pointer;
 }
 
-.editor-toolbar a.active,
-.editor-toolbar a:hover {
+.editor-toolbar a.active, .editor-toolbar a:hover {
     background: #fcfcfc;
-    border-color: #95a5a6;
 }
 
 .editor-toolbar a:before {
@@ -325,4 +323,11 @@
 
 .CodeMirror .CodeMirror-placeholder {
     opacity: .5;
+}
+
+.editor_icon_giphy{
+  background-image: url('/resources/img/editor/giphy.png') !important;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position: center center;
 }
