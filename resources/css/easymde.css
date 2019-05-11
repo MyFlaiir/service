@@ -553,11 +553,11 @@ span.CodeMirror-selectedtext {
 }
 
 .editor-toolbar:before {
-	margin-bottom: 8px
+	margin-bottom: 3px
 }
 
 .editor-toolbar:after {
-	margin-top: 8px
+	margin-top: 3px
 }
 
 .editor-toolbar.fullscreen {
@@ -616,6 +616,7 @@ span.CodeMirror-selectedtext {
 	text-decoration: none !important;
 	width: 30px;
 	height: 30px;
+  vertical-align: top;
 	margin: 0;
 	padding: 0;
 	border: 1px solid transparent;
@@ -629,16 +630,16 @@ span.CodeMirror-selectedtext {
 
 .editor-toolbar button.active, .editor-toolbar button:hover {
   background-color:rgba(43, 139, 234, 1);
+  color:#ffffff;
 }
 
 .editor-toolbar i.separator {
 	display: inline-block;
 	width: 0;
 	border-left: 1px solid #d9d9d9;
-	border-right: 1px solid #fff;
 	color: transparent;
 	text-indent: -10px;
-	margin: 0 6px
+  margin: 11px 6px;
 }
 
 .editor-toolbar button:after {
@@ -824,13 +825,13 @@ span.CodeMirror-selectedtext {
 .editor_icon_giphy{
   background-image: url('/resources/img/editor/giphy.png') !important;
   background-repeat: no-repeat;
-  background-size: 25px;
+  background-size: 16px;
   background-position: center center;
 }
 
 .editor_icon_youtube{
   background-image: url('/resources/img/editor/youtube.png') !important;
   background-repeat: no-repeat;
-  background-size: 25px;
+  background-size: 16px;
   background-position: center center;
 }
