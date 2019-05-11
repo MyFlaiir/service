@@ -129,7 +129,7 @@
 }
 
 .editor-toolbar a.active, .editor-toolbar a:hover {
-    background: #fcfcfc;
+
 }
 
 .editor-toolbar a:before {
@@ -327,6 +327,13 @@
 
 .editor_icon_giphy{
   background-image: url('/resources/img/editor/giphy.png') !important;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position: center center;
+}
+
+.editor_icon_youtube{
+  background-image: url('/resources/img/editor/youtube.png') !important;
   background-repeat: no-repeat;
   background-size: 25px;
   background-position: center center;
