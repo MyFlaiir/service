@@ -484,8 +484,8 @@ f.generate_social_comment_full{
     end
 
     //generate reply quote preview
+    v.conreply="<div></div>"
     if v.replytype=="comment"
-      v.conreply="<div></div>"
       if not v.replyid=="0"
         v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
         if not v.data_crparent false
