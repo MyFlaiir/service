@@ -77,9 +77,9 @@ f.post_social_update_emote{
   v.rating=f.get_user_votingpower()
 
   if f.check_social_update(v.post) true
-    v.delete=s.mysql_delete("DELETE FROM socials_updates_emotes WHERE post='v.post' AND user='sv.user_id'")
+    v.delete=s.mysql_delete("DELETE FROM socials_updates_emotes WHERE resource='v.post' AND user='sv.user_id'")
     if not v.myemote==v.emote
-      v.postid=s.mysql_insert("INSERT INTO socials_updates_emotes(user,post,emote) VALUES('sv.user_id','v.post','v.emote')")
+      v.postid=s.mysql_insert("INSERT INTO socials_updates_emotes(user,resource,emote) VALUES('sv.user_id','v.post','v.emote')")
       v.update=s.mysql_update("UPDATE socials_updates SET rating=rating+v.rating WHERE id='v.post'")
     else
       v.update=s.mysql_update("UPDATE socials_updates SET rating=rating-v.rating WHERE id='v.post'")
@@ -101,9 +101,9 @@ f.post_social_comment_emote{
   v.rating=f.get_user_votingpower()
 
   if f.check_social_comment(v.post) true
-    v.delete=s.mysql_delete("DELETE FROM socials_comments_emotes WHERE comment='v.post' AND user='sv.user_id'")
+    v.delete=s.mysql_delete("DELETE FROM socials_comments_emotes WHERE resource='v.post' AND user='sv.user_id'")
     if not v.myemote==v.emote
-      v.postid=s.mysql_insert("INSERT INTO socials_comments_emotes(user,comment,emote) VALUES('sv.user_id','v.post','v.emote')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments_emotes(user,resource,emote) VALUES('sv.user_id','v.post','v.emote')")
       v.update=s.mysql_update("UPDATE socials_comments SET rating=rating+v.rating WHERE id='v.post'")
 
     else
