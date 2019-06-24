@@ -3,10 +3,8 @@ f.username_source{
 
 	v.source="error"
 
-	v.username=s.string_replace(":","_iiuuiiuu",v.username)
-
-	v.contain=s.string_contains("flaiir_iiuuiiuu",v.username)
-	if v.contain=="flaiir"
+	v.contain_flaiir=s.string_contains("flaiir:",v.username)
+	if v.contain_flaiir true
 		v.source="flaiir"
 	end
 
