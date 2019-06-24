@@ -14,9 +14,9 @@ f.post_social_update{
     v.content=s.string_trim_utf8(v.content,v.maxsize)
     v.compressed=s.base64_encode(v.content)
 
-    v.linkcode=f.generate_id_long("socials_updates")
+    v.id_long=f.generate_id_long("socials_updates")
     v.storage=f.generate_storage_id()
-    v.postid=s.mysql_insert("INSERT INTO socials_updates(id_long,user,date_created,storage) VALUES(v.linkcode,'v.usersave','v.datecode','v.storage')")
+    v.postid=s.mysql_insert("INSERT INTO socials_updates(id_long,user,date_created,storage) VALUES(v.id_long,'v.usersave','v.datecode','v.storage')")
     if not v.postid false
       v.postfinal=s.mysql_insert("INSERT INTO socials_updates_storage_v.storage(update,content) VALUES('v.postid','v.compressed')")
     end
@@ -41,12 +41,12 @@ f.post_social_comment{
     v.content=s.string_trim_utf8(v.content,v.maxsize)
     v.compressed=s.base64_encode(v.content)
     v.storage=f.generate_storage_id()
-    v.linkcode=f.generate_id_long("socials_comments")
+    v.id_long=f.generate_id_long("socials_comments")
 
     if set v.replyid
-      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.linkcode','comment','v.replyid','v.storage')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.id_long','comment','v.replyid','v.storage')")
     else
-      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.linkcode','update','v.parentid','v.storage')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.id_long','update','v.parentid','v.storage')")
     end
 
     if not v.postid false

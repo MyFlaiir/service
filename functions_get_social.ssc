@@ -11,13 +11,13 @@ f.get_social_update_content{
   s.echo(v.content)
 }
 
-f.get_social_update_linkcode{
+f.get_social_update_id_long{
   v.postid=v.function_passed[0]
   v.content=false
 
   v.data=s.mysql_select("SELECT * FROM socials_updates WHERE id='v.postid' LIMIT 1")
   if not v.data false
-    v.content=v.data[linkcode]
+    v.content=v.data[id_long]
     v.content=s.string_clean(v.content)
   end
 
@@ -25,13 +25,13 @@ f.get_social_update_linkcode{
 }
 
 
-f.get_social_comment_linkcode{
+f.get_social_comment_id_long{
   v.postid=v.function_passed[0]
   v.content=false
 
   v.data=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.postid' LIMIT 1")
   if not v.data false
-    v.content=v.data[linkcode]
+    v.content=v.data[id_long]
     v.content=s.string_clean(v.content)
   end
 

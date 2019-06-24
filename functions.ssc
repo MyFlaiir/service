@@ -34,7 +34,7 @@ f.generate_id_long{
 	v.table=v.function_passed[0]
   v.datause=s.random_string(35)
   v.datause=s.string_lowercase(v.datause)
-  v.data_db=s.mysql_select("SELECT linkcode FROM v.table WHERE id_long='v.datause' LIMIT 1")
+  v.data_db=s.mysql_select("SELECT id_long FROM v.table WHERE id_long='v.datause' LIMIT 1")
   if not v.data_db false
     v.databack=f.generate_id_long(v.table)
     s.echo(v.databack)
