@@ -8,7 +8,7 @@ v.catchall=s.string_replace("/index.ssc","",v.catchall)
 v.catchall=s.string_replace("/comment/","",v.catchall)
 v.idcode=s.string_clean(v.catchall)
 
-v.data_post=s.mysql_select("SELECT * FROM socials_comments WHERE linkcode='v.idcode' LIMIT 1")
+v.data_post=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.idcode' LIMIT 1")
 if not v.data_post false
 
   v.linkid=v.data_post[id]
