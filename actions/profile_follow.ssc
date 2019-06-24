@@ -10,6 +10,8 @@ if set uv.user
   v.usersource=f.username_source(v.user)
   v.user=f.username_original(v.user)
 
+  s.echo("debug v.usersource and v.user listing")
+
   v.data_profile=s.mysql_select("SELECT * FROM accounts WHERE username='v.user' AND source='v.usersource' LIMIT 1")
   if not v.data_profile false
     v.profileid=v.data_profile[id]
