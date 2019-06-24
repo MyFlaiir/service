@@ -41,7 +41,7 @@ if not v.data_profile false
 
   t.content_right("<bubble>")
   t.content_right("<h2 style='margin-top:0px;'>Links</h2>")
-  t.content_right("<a href='/profile/v.profile_username' class='sidebar_menu'>Updates</a>")
+  t.content_right("<a href='/profile/v.profile_usersusername' class='sidebar_menu'>Updates</a>")
   t.content_right("</bubble>")
 
 
