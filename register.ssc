@@ -74,7 +74,7 @@ f.user_register{
 	v.usernamec=s.string_lowercase("v.usernamec")
 	v.usernamec=s.string_username("v.usernamec")
 	v.usernamec=s.string_trim_utf8("v.usernamec","90")
-	v.datac_db=s.mysql_select("SELECT * FROM accounts WHERE username='v.usernamec' LIMIT 1")
+	v.datac_db=s.mysql_select("SELECT * FROM accounts WHERE username='v.usernamec' AND source='flaiir' LIMIT 1")
 	if set v.datac_db[username]
 		v.valid=false
 		v.message="This username is already taken"
