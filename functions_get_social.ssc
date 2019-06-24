@@ -24,6 +24,28 @@ f.get_social_update_id_long{
   s.echo(v.content)
 }
 
+f.get_social_update_id_short{
+  v.postid=v.function_passed[0]
+  v.content=false
+  v.data=s.mysql_select("SELECT * FROM socials_updates WHERE id_long='v.postid' LIMIT 1")
+  if not v.data false
+    v.content=v.data[id]
+  end
+
+  s.echo(v.content)
+}
+
+f.get_social_comment_id_short{
+  v.postid=v.function_passed[0]
+  v.content=false
+  v.data=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.postid' LIMIT 1")
+  if not v.data false
+    v.content=v.data[id]
+  end
+
+  s.echo(v.content)
+}
+
 
 f.get_social_comment_id_long{
   v.postid=v.function_passed[0]

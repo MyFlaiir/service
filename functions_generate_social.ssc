@@ -177,13 +177,14 @@ f.generate_social_update_full{
 
 f.generate_social_update_emotes{
   v.postid=v.function_passed[0]
+  v.short=f.get_social_update_id_short(v.postid)
 
-  v.emote_heart=f.get_social_update_emote(v.postid,"heart")
-  v.emote_cheese=f.get_social_update_emote(v.postid,"cheese")
-  v.emote_shocked=f.get_social_update_emote(v.postid,"shocked")
-  v.emote_thinking=f.get_social_update_emote(v.postid,"thinking")
-  v.emote_laugh=f.get_social_update_emote(v.postid,"laugh")
-  v.myemote=f.get_social_update_myemote(v.postid)
+  v.emote_heart=f.get_social_update_emote(v.short,"heart")
+  v.emote_cheese=f.get_social_update_emote(v.short,"cheese")
+  v.emote_shocked=f.get_social_update_emote(v.short,"shocked")
+  v.emote_thinking=f.get_social_update_emote(v.short,"thinking")
+  v.emote_laugh=f.get_social_update_emote(v.short,"laugh")
+  v.myemote=f.get_social_update_myemote(v.short)
 
   v.emote_set_heart="notset"
   v.emote_set_cheese="notset"
@@ -223,13 +224,14 @@ f.generate_social_update_emotes{
 
 f.generate_social_comment_emotes{
   v.postid=v.function_passed[0]
+  v.short=f.get_social_comment_id_short(v.postid)
 
-  v.emote_heart=f.get_social_comment_emote(v.postid,"heart")
-  v.emote_cheese=f.get_social_comment_emote(v.postid,"cheese")
-  v.emote_shocked=f.get_social_comment_emote(v.postid,"shocked")
-  v.emote_thinking=f.get_social_comment_emote(v.postid,"thinking")
-  v.emote_laugh=f.get_social_comment_emote(v.postid,"laugh")
-  v.myemote=f.get_social_comment_myemote(v.postid)
+  v.emote_heart=f.get_social_comment_emote(v.short,"heart")
+  v.emote_cheese=f.get_social_comment_emote(v.short,"cheese")
+  v.emote_shocked=f.get_social_comment_emote(v.short,"shocked")
+  v.emote_thinking=f.get_social_comment_emote(v.short,"thinking")
+  v.emote_laugh=f.get_social_comment_emote(v.short,"laugh")
+  v.myemote=f.get_social_comment_myemote(v.short)
 
   v.emote_set_heart="notset"
   v.emote_set_cheese="notset"
