@@ -6,5 +6,5 @@ v.data_posts=s.mysql_select("SELECT id FROM socials_comments WHERE id_long='v.po
 if not v.data_posts false
   f.generate_social_comment_small(v.data_posts,"ajax")
 else
-  t.content("<div class='message_warning'>We have no comment to show</div>")
+  t.content("<div class='message_warning'>Error cant load comment</div>")
 end
