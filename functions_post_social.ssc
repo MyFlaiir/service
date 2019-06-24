@@ -16,7 +16,7 @@ f.post_social_update{
 
     v.id_long=f.generate_id_long("socials_updates")
     v.storage=f.generate_storage_id()
-    v.postid=s.mysql_insert("INSERT INTO socials_updates(id_long,user,date_created,storage) VALUES(v.id_long,'v.usersave','v.datecode','v.storage')")
+    v.postid=s.mysql_insert("INSERT INTO socials_updates(id_long,user,date_created,storage) VALUES('v.id_long','v.usersave','v.datecode','v.storage')")
     if not v.postid false
       v.postfinal=s.mysql_insert("INSERT INTO socials_updates_storage_v.storage(update,content) VALUES('v.postid','v.compressed')")
     end
