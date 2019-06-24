@@ -463,6 +463,7 @@ f.generate_social_comment_full{
     v.rating=v.data_id[rating]
     v.id_long=v.data_id[id_long]
     v.replyid=v.data_id[resource_id]
+    v.replytype=v.data_id[resource_type]
     v.storage=v.data_id[storage]
     v.parentid_long=f.get_social_update_id_long(v.data_id[resource_source])
     v.dateago=s.convert_timestamp_ago(v.date,"true")
@@ -483,6 +484,7 @@ f.generate_social_comment_full{
     end
 
     //generate reply quote preview
+    if v.replytype=="comment"
     v.conreply="<div></div>"
     if not v.replyid=="0"
       v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
