@@ -14,6 +14,7 @@ if not v.data_post false
   v.linkid=v.data_post[id]
   v.updatetype=v.data_post[resource_type]
   v.updateid=v.data_post[resource_id]
+  v.original=v.data_post[resource_source]
   f.generate_social_comment_full(v.linkid)
 
   v.data_comreply=s.mysql_select("SELECT id,user FROM socials_comments WHERE resource_type='comment' resource_id='v.linkid' ORDER BY id DESC LIMIT 100")
@@ -27,10 +28,8 @@ if not v.data_post false
   end
 
   //if org type is update
-  if v.updatetype=="update"
-    t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Original update</h1>")
-    f.generate_social_update_small(v.updateid)
-  end
+  t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Original update</h1>")
+  f.generate_social_update_small(v.original)
 
 else
   t.content_middle("<bubble>No comment found with this id</bubble>")

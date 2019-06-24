@@ -44,9 +44,9 @@ f.post_social_comment{
     v.id_long=f.generate_id_long("socials_comments")
 
     if set v.replyid
-      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.id_long','comment','v.replyid','v.storage')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,resource_source,storage) VALUES('v.usersave','v.datecode','v.id_long','comment','v.replyid','v.parentid','v.storage')")
     else
-      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,storage) VALUES('v.usersave','v.datecode','v.id_long','update','v.parentid','v.storage')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments(user,date_created,id_long,resource_type,resource_id,resource_source,storage) VALUES('v.usersave','v.datecode','v.id_long','update','v.parentid','v.parentid','v.storage')")
     end
 
     if not v.postid false
