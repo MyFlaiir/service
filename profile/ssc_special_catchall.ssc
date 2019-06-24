@@ -33,7 +33,6 @@ if not v.data_profile false
     end
   else
     t.content_right("<a href="javascript:modl('/actions/post_social_update');" class='sidebar_menu'>New update</a>")
-    t.content_right("<a href="javascript:modl('/actions/post_media_photo');" class='sidebar_menu'>Upload photos</a>")
   end
   t.content_right("</bubble>")
 
@@ -51,17 +50,8 @@ if not v.data_profile false
   if v.profile_type=="mod"
     v.generate_tags="v.generate_tags <div class='inlinebutton-info-mod'>Mod</div>"
   end
-  if v.profile_type=="owner"
-    v.generate_tags="v.generate_tags <div class='inlinebutton-info-owner'>Owner</div>"
-  end
   if v.profile_type=="bug"
     v.generate_tags="v.generate_tags <div class='inlinebutton-info-bug'>Bug Finder</div>"
-  end
-  if v.profile_type=="build"
-    v.generate_tags="v.generate_tags <div class='inlinebutton-info-build'>Build Squad</div>"
-  end
-  if v.profile_type=="buildlead"
-    v.generate_tags="v.generate_tags <div class='inlinebutton-info-buildlead'>Build Team Lead</div>"
   end
 
   t.content_middle("<bubble><div style='text-align:center;'>")
