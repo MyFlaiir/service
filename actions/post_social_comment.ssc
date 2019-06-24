@@ -31,7 +31,7 @@ if not v.data_list false
       f.set_pagetitle("New comment reply")
       v.data_com=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.replyid' LIMIT 1")
       if not v.data_com false
-        t.content('<form enctype="multipart/form-data" action="/actions/post_social_comment?post=v.postid&reply=v.replyid" method="POST"><textarea name="content" style="overflow-y:hidden;width:100%;" id="js_mde"></textarea><BR><BR><input id="button" type="submit" value="Post reply comment"></form>')
+        t.content('<form enctype="multipart/form-data" action="/actions/post_social_comment?post=v.postid&reply=v.replyid" method="POST"><textarea name="content" style="overflow-y:hidden;width:100%;"></textarea><BR><BR><input id="button" type="submit" value="Post reply comment"></form>')
       else
         t.content("Um... We cant find this comment to make a reply comment on.")
       end
