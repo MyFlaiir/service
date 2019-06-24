@@ -71,7 +71,7 @@ f.generate_social_update_small{
       v.actions="<div class='post_edit'><a href=\"javascript:modl('/actions/update_social_update?post=v.postid');\">Edit</a></div><div class='post_delete'><a href=\"javascript:modl_confirm('Delete social update?','If you do this it cant be undone...','/actions/delete_social_update?post=v.postid');\">Delete</a></div>"
     end
 
-    v.emotegenerated=f.generate_social_update_emotes(v.postid)
+    v.emotegenerated=f.generate_social_update_emotes(v.id_long)
 
     if notset v.content
       v.content="<p>This update cant be displayed.</p>"
@@ -156,7 +156,7 @@ f.generate_social_update_full{
       v.actions="<div class='post_edit'><a href=\"javascript:modl('/actions/update_social_update?post=v.postid');\">Edit</a></div><div class='post_delete'><a href=\"javascript:modl_confirm('Delete social update?','If you do this it cant be undone...','/actions/delete_social_update?post=v.postid');\">Delete</a></div>"
     end
 
-    v.emotegenerated=f.generate_social_update_emotes(v.postid)
+    v.emotegenerated=f.generate_social_update_emotes(v.id_long)
 
     t.content_middle("<bubble><div style='border-bottom: 2px solid #f1f1f1;padding-bottom: 10px;'><avatar style=\"border-radius: 35px;width: 65px;float:left;height:65px;margin-right: 10px;position: relative;margin-bottom: 10px;background-image:url('v.usr_image');\"></avatar><a href='/profile/v.usr_username'><h2 style='margin-bottom:0px;font-weight:300;display: inline-block;margin-top: 0px;'>v.usr_name</h2></a>v.actions<h3 style='margin-top: 4px;margin-bottom: 5px;'>v.generate_tags</h3>Posted v.dateago</div><div style='max-width:100%;overflow:hidden;'>v.content</div><div style='border-top: 2px solid #f1f1f1;padding-top:10px;'>v.emotegenerated</div></bubble>")
 

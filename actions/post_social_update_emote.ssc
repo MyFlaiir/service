@@ -18,5 +18,7 @@ if set uv.post
     t.content("v.getgenrated")
   else
     t.content("<checkupaction action='notification' type='error'>We cant find this update</checkupaction>")
+    v.getgenrated=f.generate_social_update_emotes(v.post)
+    t.content("v.getgenrated")
   end
 end
