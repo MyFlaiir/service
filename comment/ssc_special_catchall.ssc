@@ -12,10 +12,11 @@ v.data_post=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.idco
 if not v.data_post false
 
   v.linkid=v.data_post[id]
-  v.updateid=v.data_post[updateid]
+  v.updatetype=v.data_post[resource_type]
+  v.updateid=v.data_post[resource_id]
   f.generate_social_comment_full(v.linkid)
 
-  v.data_comreply=s.mysql_select("SELECT id,user FROM socials_comments WHERE replyto='v.linkid' ORDER BY id DESC LIMIT 100")
+  v.data_comreply=s.mysql_select("SELECT id,user FROM socials_comments WHERE resource_type='comment' resource_id='v.linkid' ORDER BY id DESC LIMIT 100")
   if not v.data_comreply false
     t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Reply's to this comment</h1>")
     if set v.data_comreply[user]
@@ -25,8 +26,11 @@ if not v.data_post false
     end
   end
 
-  t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Original update</h1>")
-  f.generate_social_update_small(v.updateid)
+  //if org type is update
+  if v.updatetype=="update"
+    t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Original update</h1>")
+    f.generate_social_update_small(v.updateid)
+  end
 
 else
   t.content_middle("<bubble>No comment found with this id</bubble>")
