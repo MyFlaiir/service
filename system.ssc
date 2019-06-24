@@ -21,10 +21,10 @@ gv.valid_user=false
 
 //Check if user info is valid
 if not sv.user_id==0
-  v.data_db_xn=s.mysql_select("SELECT id,username,first_name,last_name FROM accounts WHERE id='sv.user_id' LIMIT 1")
+  v.data_db_xn=s.mysql_select("SELECT id,username,first_name,last_name,source FROM accounts WHERE id='sv.user_id' LIMIT 1")
   if not v.data_db_xn false
     sv.user_id=v.data_db_xn[id]
-    sv.user_username=v.data_db_xn[username]
+    sv.user_username=v.data_db_xn[source]:v.data_db_xn[username]
     sv.user_firstname=v.data_db_xn[first_name]
     sv.user_lastname=v.data_db_xn[last_name]
     gv.valid_user=true
