@@ -175,6 +175,39 @@ f.get_user_type{
   end
 }
 
+
+f.get_user_votingpower{
+  if set v.function_passed[0]
+    v.userid=v.function_passed[0]
+  else
+    v.userid=sv.user_id
+  end
+
+  v.cachecheck=f.cache_string_fetch("user_votingpower",v.userid)
+  if not v.cachecheck=="cachnofind"
+    s.echo(v.cachecheck)
+  else
+    v.power=1
+    v.data_db=s.mysql_select("SELECT type FROM accounts WHERE id='v.userid' LIMIT 1")
+
+    if v.data_db[type]=="normal"
+      v.power=10
+    end
+    if v.v.data_db[type]=="mod"
+      v.power=20
+    end
+    if v.v.data_db[type]=="bug"
+      v.power=20
+    end
+    if v.v.data_db[type]=="admin"
+      v.power=40
+    end
+
+    f.cache_string_save("user_votingpower",v.userid,v.power)
+    s.echo("v.power")
+  end
+}
+
 f.get_user_email{
   if set v.function_passed[0]
     v.userid=v.function_passed[0]

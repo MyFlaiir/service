@@ -43,86 +43,6 @@ f.post_social_update{
   end
 }
 
-f.post_social_update_emote{
-  v.post=s.string_clean(v.function_passed[0])
-  v.emote=s.string_clean(v.function_passed[1])
-
-  v.emote=s.string_clean("v.emote")
-  v.emote=s.string_lowercase("v.emote")
-  v.emote=s.string_username("v.emote")
-  v.emote=s.string_trim_utf8("v.emote","90")
-
-  v.myemote=f.get_social_update_myemote(v.post)
-
-  v.usertype=f.get_user_type()
-  v.rating=1
-  if v.usertype=="normal"
-    v.rating=10
-  end
-  if v.usertype=="mod"
-    v.rating=20
-  end
-  if v.usertype=="bug"
-    v.rating=20
-  end
-  if v.usertype=="admin"
-    v.rating=40
-  end
-
-  if f.check_social_update(v.post) true
-    v.delete=s.mysql_delete("DELETE FROM socials_updates_emotes WHERE post='v.post' AND user='sv.user_id'")
-    if not v.myemote==v.emote
-      v.postid=s.mysql_insert("INSERT INTO socials_updates_emotes(user,post,emote) VALUES('sv.user_id','v.post','v.emote')")
-      v.update=s.mysql_update("UPDATE socials_updates SET rating=rating+v.rating WHERE id='v.post'")
-
-      v.linkcode=f.get_social_update_linkcode(v.post)
-      f.new_social_feed(sv.user_id,"reacted to a update with the v.emote emote",v.post,"/update/v.linkcode","update_reaction")
-    else
-      v.update=s.mysql_update("UPDATE socials_updates SET rating=rating-v.rating WHERE id='v.post'")
-    end
-  end
-}
-
-f.post_social_comment_emote{
-  v.post=s.string_clean(v.function_passed[0])
-  v.emote=s.string_clean(v.function_passed[1])
-
-  v.emote=s.string_clean("v.emote")
-  v.emote=s.string_lowercase("v.emote")
-  v.emote=s.string_username("v.emote")
-  v.emote=s.string_trim_utf8("v.emote","90")
-
-  v.myemote=f.get_social_comment_myemote(v.post)
-
-  v.usertype=f.get_user_type()
-  v.rating=1
-  if v.usertype=="normal"
-    v.rating=10
-  end
-  if v.usertype=="mod"
-    v.rating=20
-  end
-  if v.usertype=="bug"
-    v.rating=20
-  end
-  if v.usertype=="admin"
-    v.rating=40
-  end
-
-  if f.check_social_comment(v.post) true
-    v.delete=s.mysql_delete("DELETE FROM socials_comments_emotes WHERE comment='v.post' AND user='sv.user_id'")
-    if not v.myemote==v.emote
-      v.postid=s.mysql_insert("INSERT INTO socials_comments_emotes(user,comment,emote) VALUES('sv.user_id','v.post','v.emote')")
-      v.update=s.mysql_update("UPDATE socials_comments SET rating=rating+v.rating WHERE id='v.post'")
-
-      v.linkcode=f.get_social_comment_linkcode(v.post)
-      f.new_social_feed(sv.user_id,"reacted to a comment with the v.emote emote",v.post,"/comment/v.linkcode","comment_reaction")
-    else
-      v.update=s.mysql_update("UPDATE socials_comments SET rating=rating-v.rating WHERE id='v.post'")
-    end
-  end
-}
-
 f.post_social_comment{
   v.content=v.function_passed[0]
   v.parentid=v.function_passed[1]
@@ -176,6 +96,61 @@ f.post_social_comment{
         v.linkcode=f.get_social_update_linkcode(v.parentid)
         f.new_social_feed(sv.user_id,"made a comment on a update",v.parentid,"/update/v.linkcode","comment")
       end
+    end
+  end
+}
+
+
+f.post_social_update_emote{
+  v.post=s.string_clean(v.function_passed[0])
+  v.emote=s.string_clean(v.function_passed[1])
+
+  v.emote=s.string_clean("v.emote")
+  v.emote=s.string_lowercase("v.emote")
+  v.emote=s.string_username("v.emote")
+  v.emote=s.string_trim_utf8("v.emote","90")
+
+  v.myemote=f.get_social_update_myemote(v.post)
+
+  v.rating=f.get_user_votingpower()
+
+  if f.check_social_update(v.post) true
+    v.delete=s.mysql_delete("DELETE FROM socials_updates_emotes WHERE post='v.post' AND user='sv.user_id'")
+    if not v.myemote==v.emote
+      v.postid=s.mysql_insert("INSERT INTO socials_updates_emotes(user,post,emote) VALUES('sv.user_id','v.post','v.emote')")
+      v.update=s.mysql_update("UPDATE socials_updates SET rating=rating+v.rating WHERE id='v.post'")
+
+      v.linkcode=f.get_social_update_linkcode(v.post)
+      f.new_social_feed(sv.user_id,"reacted to a update with the v.emote emote",v.post,"/update/v.linkcode","update_reaction")
+    else
+      v.update=s.mysql_update("UPDATE socials_updates SET rating=rating-v.rating WHERE id='v.post'")
+    end
+  end
+}
+
+f.post_social_comment_emote{
+  v.post=s.string_clean(v.function_passed[0])
+  v.emote=s.string_clean(v.function_passed[1])
+
+  v.emote=s.string_clean("v.emote")
+  v.emote=s.string_lowercase("v.emote")
+  v.emote=s.string_username("v.emote")
+  v.emote=s.string_trim_utf8("v.emote","90")
+
+  v.myemote=f.get_social_comment_myemote(v.post)
+
+  v.rating=f.get_user_votingpower()
+
+  if f.check_social_comment(v.post) true
+    v.delete=s.mysql_delete("DELETE FROM socials_comments_emotes WHERE comment='v.post' AND user='sv.user_id'")
+    if not v.myemote==v.emote
+      v.postid=s.mysql_insert("INSERT INTO socials_comments_emotes(user,comment,emote) VALUES('sv.user_id','v.post','v.emote')")
+      v.update=s.mysql_update("UPDATE socials_comments SET rating=rating+v.rating WHERE id='v.post'")
+
+      v.linkcode=f.get_social_comment_linkcode(v.post)
+      f.new_social_feed(sv.user_id,"reacted to a comment with the v.emote emote",v.post,"/comment/v.linkcode","comment_reaction")
+    else
+      v.update=s.mysql_update("UPDATE socials_comments SET rating=rating-v.rating WHERE id='v.post'")
     end
   end
 }

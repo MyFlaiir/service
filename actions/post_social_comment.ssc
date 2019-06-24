@@ -36,7 +36,7 @@ if not v.data_list false
         t.content("Um... We cant find this comment to make a reply comment on.")
       end
     else
-      t.content('<form enctype="multipart/form-data" action="/actions/post_social_comment?post=v.postid" method="POST"><textarea name="content" style="overflow-y:hidden;width:100%;" id="js_mde"></textarea><BR><BR><input id="button" type="submit" value="Post comment"></form>')
+      t.content('<form enctype="multipart/form-data" action="/actions/post_social_comment?post=v.postid" method="POST"><textarea name="content" style="overflow-y:hidden;width:100%;"></textarea><BR><BR><input id="button" type="submit" value="Post comment"></form>')
     end
   end
 else
