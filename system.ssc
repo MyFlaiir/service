@@ -13,9 +13,6 @@ s.include("/functions_generate_social.ssc")
 //On session start clear data
 if notset sv.user_id
   sv.user_id=0
-  sv.user_username=false
-  sv.user_firstname=false
-  sv.user_lastname=false
 end
 gv.valid_user=false
 
@@ -24,9 +21,6 @@ if not sv.user_id==0
   v.data_db_xn=s.mysql_select("SELECT id,username,first_name,last_name,source FROM accounts WHERE id='sv.user_id' LIMIT 1")
   if not v.data_db_xn false
     sv.user_id=v.data_db_xn[id]
-    sv.user_username=v.data_db_xn[source]:v.data_db_xn[username]
-    sv.user_firstname=v.data_db_xn[first_name]
-    sv.user_lastname=v.data_db_xn[last_name]
     gv.valid_user=true
   else
     sv.user_id=0
@@ -34,9 +28,10 @@ if not sv.user_id==0
 end
 
 if not sv.user_id==0
+  v.profilename=f.get_user_username()
   t.header_left("<img src='/logo.png' style='max-height: 40px;float: left;margin-right: 5px;margin-top: 5px;'>")
   t.header_left("<a href=\"/\" class='button'><i class="fas fa-rss"></i> Feed</a>")
-  t.header_left("<a href=\"/profile/sv.user_username\" class='button'><i class="fas fa-user"></i> Profile</a>")
+  t.header_left("<a href=\"/profile/v.profilename\" class='button'><i class="fas fa-user"></i> Profile</a>")
 end
 
 if not sv.user_id==0

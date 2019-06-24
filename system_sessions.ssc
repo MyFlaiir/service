@@ -39,7 +39,6 @@ else
         if v.gotuseragent==v.useragent
           sv.user_id=v.sessdata_db[user]
           sv.user_verified=true
-          sv.user_username=f.get_user_username(sv.user_id)
           v.location=s.system_url()
           s.header("Location: v.location")
         else
