@@ -8,8 +8,8 @@ v.catchall=s.string_replace("/index.ssc","",v.catchall)
 v.catchall=s.string_replace("/profile/","",v.catchall)
 v.profile_username=s.string_clean(v.catchall)
 
-v.usersource=f.username_source(v.catchall)
-v.catchall=f.username_original(v.catchall)
+v.usersource=f.username_source(v.profile_username)
+v.profile_username=f.username_original(v.profile_username)
 
 v.data_profile=s.mysql_select("SELECT * FROM accounts WHERE username='v.profile_username' AND source='v.usersource' LIMIT 1")
 if not v.data_profile false
