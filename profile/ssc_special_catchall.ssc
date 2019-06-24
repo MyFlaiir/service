@@ -82,5 +82,5 @@ if not v.data_profile false
 
 
 else
-  t.content_middle("<bubble>No user found with this username...</bubble>")
+  t.content_middle("<bubble>No user found with this username v.catchall with source v.usersource ...</bubble>")
 end
