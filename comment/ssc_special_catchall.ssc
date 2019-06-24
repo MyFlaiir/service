@@ -28,21 +28,6 @@ if not v.data_post false
   t.content_middle("<h1 style='margin-top:50px;margin-bottom:50px;'>Original update</h1>")
   f.generate_social_update_small(v.updateid)
 
-  //Generate feed events
-  t.content_right("<bubble>")
-  t.content_right("<h2 style='margin-top:0px;'>Events on this comment</h2>")
-  v.data_feeds=s.mysql_select("SELECT id,user FROM socials_feeds WHERE (type='comment_reaction' AND source='v.linkid') OR (type='comment_reply' AND source='v.linkid') ORDER BY id DESC LIMIT 30")
-  if not v.data_feeds false
-    if set v.data_feeds[user]
-      f.generate_social_feed_local(v.data_feeds)
-    else
-      s.array_loop("generate_social_feed_local",v.data_feeds)
-    end
-  else
-    t.content_right("No content found...")
-  end
-  t.content_right("</bubble>")
-
 else
   t.content_middle("<bubble>No comment found with this id</bubble>")
 end
