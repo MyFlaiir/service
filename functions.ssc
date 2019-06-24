@@ -30,17 +30,24 @@ f.render_contentmd{
 	s.echo("<h2>v.title</h2>v.content")
 }
 
-f.generate_linkcode{
+f.generate_id_long{
 	v.table=v.function_passed[0]
   v.datause=s.random_string(35)
   v.datause=s.string_lowercase(v.datause)
-  v.data_db=s.mysql_select("SELECT linkcode FROM v.table WHERE linkcode='v.datause' LIMIT 1")
+  v.data_db=s.mysql_select("SELECT linkcode FROM v.table WHERE id_long='v.datause' LIMIT 1")
   if not v.data_db false
-    v.databack=f.generate_linkcode(v.table)
+    v.databack=f.generate_id_long(v.table)
     s.echo(v.databack)
   else
     s.echo(v.datause)
   end
+}
+
+f.generate_storage_id{
+  v.datause=s.random_string(35)
+  v.datacode=s.md5(v.datause)
+	v.datacode=s.string_trim(v.datacode,1)
+	s.echo(v.datacode)
 }
 
 gv.cachesystem[yes]=true
