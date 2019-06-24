@@ -7,7 +7,10 @@ f.set_pagedescription("Just a event")
 if set uv.user
   v.user=s.string_clean(uv.user)
 
-  v.data_profile=s.mysql_select("SELECT * FROM accounts WHERE username='v.user' LIMIT 1")
+  v.usersource=f.username_source(v.user)
+  v.user=f.username_original(v.user)
+
+  v.data_profile=s.mysql_select("SELECT * FROM accounts WHERE username='v.user' AND source='v.usersource' LIMIT 1")
   if not v.data_profile false
     v.profileid=v.data_profile[id]
 
