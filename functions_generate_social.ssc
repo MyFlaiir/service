@@ -485,26 +485,27 @@ f.generate_social_comment_full{
 
     //generate reply quote preview
     if v.replytype=="comment"
-    v.conreply="<div></div>"
-    if not v.replyid=="0"
-      v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
-      if not v.data_crparent false
-        v.comsource=v.data_crparent[source]
-        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE resource='v.replyid' LIMIT 1")
-        if not v.data_creply false
-          v.conreply=v.data_creply[content]
-          v.conreply=s.base64_decode(v.conreply)
-          v.conreply=s.string_clean(v.conreply)
+      v.conreply="<div></div>"
+      if not v.replyid=="0"
+        v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
+        if not v.data_crparent false
+          v.comsource=v.data_crparent[source]
+          v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE resource='v.replyid' LIMIT 1")
+          if not v.data_creply false
+            v.conreply=v.data_creply[content]
+            v.conreply=s.base64_decode(v.conreply)
+            v.conreply=s.string_clean(v.conreply)
 
-    	    v.conreply=s.string_trim_utf8(v.conreply,320)
-          v.size_after=s.string_length(v.conreply)
-          if v.size_after>=315
-            v.conreply="v.content&hellip;"
+      	    v.conreply=s.string_trim_utf8(v.conreply,320)
+            v.size_after=s.string_length(v.conreply)
+            if v.size_after>=315
+              v.conreply="v.content&hellip;"
+            end
+
+            v.conid_long=f.get_social_comment_id_long(v.data_crparent[id])
+            v.conlinkuser=f.get_user_name_full(v.data_crparent[user])
+            v.conreply="<div style='padding:10px;padding-top:5px;padding-bottom:5px;border-radius:5px;background:#f1f1f1;margin-top:10px;margin-bottom:10px;'>v.conreply<p><a href='/comment/v.conid_long' class='post_viewall'>View original comment by v.conlinkuser</a></p></div>"
           end
-
-          v.conid_long=f.get_social_comment_id_long(v.data_crparent[id])
-          v.conlinkuser=f.get_user_name_full(v.data_crparent[user])
-          v.conreply="<div style='padding:10px;padding-top:5px;padding-bottom:5px;border-radius:5px;background:#f1f1f1;margin-top:10px;margin-bottom:10px;'>v.conreply<p><a href='/comment/v.conid_long' class='post_viewall'>View original comment by v.conlinkuser</a></p></div>"
         end
       end
     end
