@@ -421,7 +421,7 @@ f.generate_social_comment_small{
       v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.postid');\">Edit</a></div>"
     end
 
-    v.emotegenerated=f.generate_social_comment_emotes(v.postid)
+    v.emotegenerated=f.generate_social_comment_emotes(v.id_long)
 
     if notset v.content
       v.content="<p>This comment cant be displayed.</p>"
@@ -528,7 +528,7 @@ f.generate_social_comment_full{
       v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.postid');\">Edit</a></div>"
     end
 
-    v.emotegenerated=f.generate_social_comment_emotes(v.postid)
+    v.emotegenerated=f.generate_social_comment_emotes(v.id_long)
 
     if notset v.content
       v.content="<p>This comment cant be displayed.</p>"
