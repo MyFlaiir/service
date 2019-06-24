@@ -7,12 +7,12 @@ f.set_pagedescription("We all have opinions, so share.")
 v.postid=s.string_clean(uv.post)
 v.replyid=s.string_clean(uv.reply)
 
-v.data_list=s.mysql_select("SELECT * FROM socials_updates WHERE linkcode='v.postid' LIMIT 1")
+v.data_list=s.mysql_select("SELECT * FROM socials_updates WHERE id_long='v.postid' LIMIT 1")
 if not v.data_list false
   if set pv.content
 
     if set uv.reply
-      v.data_com=s.mysql_select("SELECT * FROM socials_comments WHERE linkcode='v.replyid' LIMIT 1")
+      v.data_com=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.replyid' LIMIT 1")
       if not v.data_com false
         v.postrealid=v.data_list[id]
         v.commrealid=v.data_com[id]
@@ -29,7 +29,7 @@ if not v.data_list false
   else
     if set uv.reply
       f.set_pagetitle("New comment reply")
-      v.data_com=s.mysql_select("SELECT * FROM socials_comments WHERE linkcode='v.replyid' LIMIT 1")
+      v.data_com=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.replyid' LIMIT 1")
       if not v.data_com false
         t.content('<form enctype="multipart/form-data" action="/actions/post_social_comment?post=v.postid&reply=v.replyid" method="POST"><textarea name="content" style="overflow-y:hidden;width:100%;" id="js_mde"></textarea><BR><BR><input id="button" type="submit" value="Post reply comment"></form>')
       else
