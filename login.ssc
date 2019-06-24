@@ -45,11 +45,11 @@ f.user_login{
 		v.password=pv.password
 		v.password=s.string_clean("v.password")
 
-		v.data_db=s.mysql_select("SELECT * FROM accounts WHERE username='v.username' LIMIT 1")
+		v.data_db=s.mysql_select("SELECT * FROM accounts WHERE username='v.username' AND source='flaiir' LIMIT 1")
 
 		if set v.data_db[username]
 			if v.data_db[type]=="new"
-				v.message="We are not open to normal users yet, check back later or on the discord server."
+				v.message="We are not open to normal users yet, check back later."
 				t.content("<div class='error'>v.message</div>")
 			else
 				v.p_username=v.data_db[username]
