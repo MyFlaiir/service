@@ -9,7 +9,7 @@ f.get_user_username{
   if not v.cachecheck=="cachnofind"
     s.echo(v.cachecheck)
   else
-    v.data_db=s.mysql_select("SELECT username FROM accounts WHERE id='v.userid' LIMIT 1")
+    v.data_db=s.mysql_select("SELECT username,source FROM accounts WHERE id='v.userid' LIMIT 1")
     f.cache_string_save("user_username",v.userid,"v.data_db[source]:v.data_db[username]")
     s.echo("v.data_db[source]:v.data_db[username]")
   end

@@ -1,7 +1,7 @@
 f.username_source{
 	v.username=v.function_passed[0]
 
-	v.source="flaiir"
+	v.source="error"
 
 	v.contain=s.string_contains("flaiir:",v.username)
 	if v.contain=="flaiir"
