@@ -10,8 +10,8 @@ f.get_user_username{
     s.echo(v.cachecheck)
   else
     v.data_db=s.mysql_select("SELECT username FROM accounts WHERE id='v.userid' LIMIT 1")
-    f.cache_string_save("user_username",v.userid,v.data_db[username])
-    s.echo("v.data_db[username]")
+    f.cache_string_save("user_username",v.userid,"v.data_db[source]:v.data_db[username]")
+    s.echo("v.data_db[source]:v.data_db[username]")
   end
 }
 
@@ -96,11 +96,14 @@ f.get_user_id{
     v.userid=sv.user_username
   end
 
+  v.usersource=f.username_source(v.userid)
+  v.userid=f.username_original(v.userid)
+
   v.cachecheck=f.cache_string_fetch("user_id",v.userid)
   if not v.cachecheck=="cachnofind"
     s.echo(v.cachecheck)
   else
-    v.data_db=s.mysql_select("SELECT id FROM accounts WHERE username='v.userid' LIMIT 1")
+    v.data_db=s.mysql_select("SELECT id FROM accounts WHERE username='v.userid' AND source='v.usersource' LIMIT 1")
     f.cache_string_save("user_id",v.userid,v.data_db[id])
     s.echo("v.data_db[id]")
   end

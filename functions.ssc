@@ -1,3 +1,24 @@
+f.username_source{
+	v.username=v.function_passed[0]
+
+	v.source="flaiir"
+
+	v.contain=s.string_contains("flaiir:",v.username)
+	if v.contain=="flaiir"
+		v.source="flaiir"
+	end
+
+	s.echo(v.source)
+}
+
+f.username_original{
+	v.username=v.function_passed[0]
+
+	v.username=s.string_replace("flaiir:","",v.username)
+
+	s.echo(v.username)
+}
+
 f.render_contentmd{
 	v.file=v.function_passed[0]
 
