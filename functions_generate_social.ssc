@@ -40,7 +40,7 @@ f.generate_social_update_small{
       v.dateago="v.dateago, edited v.dateeditago"
     end
 
-    v.data_con=s.mysql_select("SELECT content FROM socials_updates_storage_storage WHERE update='v.postid' LIMIT 1")
+    v.data_con=s.mysql_select("SELECT content FROM socials_updates_storage_storage WHERE resource='v.postid' LIMIT 1")
     if not v.data_con false
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
@@ -126,7 +126,7 @@ f.generate_social_update_full{
       v.dateago="v.dateago, edited v.dateeditago"
     end
 
-    v.data_con=s.mysql_select("SELECT * FROM socials_updates_storage_v.storage WHERE update='v.postid' LIMIT 1")
+    v.data_con=s.mysql_select("SELECT * FROM socials_updates_storage_v.storage WHERE resource='v.postid' LIMIT 1")
     if not v.data_con false
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
@@ -280,7 +280,7 @@ f.generate_social_comment_micro{
     v.source=v.data_id[source]
     v.dateago=s.convert_timestamp_ago(v.date,"true")
 
-    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.source WHERE comment='v.postid' LIMIT 1")
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.source WHERE resource='v.postid' LIMIT 1")
     if not v.data_con false
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
@@ -354,7 +354,7 @@ f.generate_social_comment_small{
       v.dateago="v.dateago, edited v.dateeditago"
     end
 
-    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.source WHERE comment='v.postid' LIMIT 1")
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.source WHERE resource='v.postid' LIMIT 1")
     if not v.data_con false
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
@@ -379,7 +379,7 @@ f.generate_social_comment_small{
       v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
       if not v.data_crparent false
         v.comsource=v.data_crparent[source]
-        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE comment='v.replyid' LIMIT 1")
+        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE resource='v.replyid' LIMIT 1")
         if not v.data_creply false
           v.conreply=v.data_creply[content]
           v.conreply=s.base64_decode(v.conreply)
@@ -470,7 +470,7 @@ f.generate_social_comment_full{
       v.dateago="v.dateago, edited v.dateeditago"
     end
 
-    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.storage WHERE comment='v.postid' LIMIT 1")
+    v.data_con=s.mysql_select("SELECT content FROM socials_comments_storage_v.storage WHERE resource='v.postid' LIMIT 1")
     if not v.data_con false
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
@@ -486,7 +486,7 @@ f.generate_social_comment_full{
       v.data_crparent=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.replyid' LIMIT 1")
       if not v.data_crparent false
         v.comsource=v.data_crparent[source]
-        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE comment='v.replyid' LIMIT 1")
+        v.data_creply=s.mysql_select("SELECT content FROM socials_comments_storage_v.comsource WHERE resource='v.replyid' LIMIT 1")
         if not v.data_creply false
           v.conreply=v.data_creply[content]
           v.conreply=s.base64_decode(v.conreply)

@@ -18,7 +18,7 @@ f.post_social_update{
     v.storage=f.generate_storage_id()
     v.postid=s.mysql_insert("INSERT INTO socials_updates(id_long,user,date_created,storage) VALUES('v.id_long','v.usersave','v.datecode','v.storage')")
     if not v.postid false
-      v.postfinal=s.mysql_insert("INSERT INTO socials_updates_storage_v.storage(update,content) VALUES('v.postid','v.compressed')")
+      v.postfinal=s.mysql_insert("INSERT INTO socials_updates_storage_v.storage(resource,content) VALUES('v.postid','v.compressed')")
     end
   end
 }
@@ -50,7 +50,7 @@ f.post_social_comment{
     end
 
     if not v.postid false
-      v.postid=s.mysql_insert("INSERT INTO socials_comments_storage_v.storage(comment,content) VALUES('v.postid','v.compressed')")
+      v.postid=s.mysql_insert("INSERT INTO socials_comments_storage_v.storage(resource,content) VALUES('v.postid','v.compressed')")
 
       //Set ratings
       if set v.replyid
