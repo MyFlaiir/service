@@ -196,13 +196,13 @@ f.get_user_votingpower{
     if v.data_db[type]=="normal"
       v.power=10
     end
-    if v.v.data_db[type]=="mod"
+    if v.data_db[type]=="mod"
       v.power=20
     end
-    if v.v.data_db[type]=="bug"
+    if v.data_db[type]=="bug"
       v.power=20
     end
-    if v.v.data_db[type]=="admin"
+    if v.data_db[type]=="admin"
       v.power=40
     end
 
