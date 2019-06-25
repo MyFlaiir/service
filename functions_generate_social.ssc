@@ -424,7 +424,7 @@ f.generate_social_comment_small{
     v.actions="<div></div>"
 
     if v.user==sv.user_id
-      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.id_long');\">Edit</a><div class='comment_delete'><a href=\"javascript:modl_confirm('Delete comment?','If you do this it cant be undone...','/actions/delete_social_comment?comment=v.id_long');\">Delete</a></div>"
+      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.id_long');\">Edit</a></div><div class='comment_delete'><a href=\"javascript:modl_confirm('Delete comment?','If you do this it cant be undone...','/actions/delete_social_comment?comment=v.id_long');\">Delete</a></div>"
     end
 
     v.emotegenerated=f.generate_social_comment_emotes(v.id_long)
@@ -539,7 +539,7 @@ f.generate_social_comment_full{
     v.actions="<div></div>"
 
     if v.user==sv.user_id
-      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.id_long');\">Edit</a><div class='comment_delete'><a href=\"javascript:modl_confirm('Delete comment?','If you do this it cant be undone...','/actions/delete_social_comment?comment=v.id_long');\">Delete</a></div>"
+      v.actions="<div class='comment_edit'><a href=\"javascript:modl('/actions/update_social_comment?comment=v.id_long');\">Edit</a></div><div class='comment_delete'><a href=\"javascript:modl_confirm('Delete comment?','If you do this it cant be undone...','/actions/delete_social_comment?comment=v.id_long');\">Delete</a></div>"
     end
 
     v.emotegenerated=f.generate_social_comment_emotes(v.id_long)
