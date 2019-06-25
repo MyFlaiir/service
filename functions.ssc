@@ -75,7 +75,7 @@ f.content_cleanandformat{
 	v.content=v.function_passed[0]
 	v.content=s.string_replace("https://","",v.content)
 	v.content=s.string_replace("http://","",v.content)
-	v.content=s.string_replace("\s","<BR>",v.content)
+	v.content=s.string_replace("\n","<BR>",v.content)
 	v.content=s.string_replace("media0.giphy.com","https://media0.giphy.com",v.content)
 	v.content=s.string_replace("media1.giphy.com","https://media1.giphy.com",v.content)
 	v.content=s.string_replace("media2.giphy.com","https://media2.giphy.com",v.content)
