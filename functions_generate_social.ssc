@@ -73,6 +73,8 @@ f.generate_social_update_small{
 
     v.emotegenerated=f.generate_social_update_emotes(v.id_long)
 
+    v.content=f.content_cleanandformat(v.content)
+
     if notset v.content
       v.content="<p>This update cant be displayed.</p>"
     end
@@ -131,6 +133,7 @@ f.generate_social_update_full{
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
       v.content=s.string_clean(v.content)
+      v.content=f.content_cleanandformat(v.content)
     end
 
     v.usr_name=f.get_user_name_full(v.user)
@@ -296,6 +299,8 @@ f.generate_social_comment_micro{
         v.bottomlink="<div></div>"
       end
 
+      v.content=f.content_cleanandformat(v.content)
+
     end
 
     v.usr_name=f.get_user_name_full(v.user)
@@ -371,8 +376,7 @@ f.generate_social_comment_small{
         v.bottomlink="<div></div>"
       end
 
-      v.content=s.markdown(v.content)
-      v.content=s.string_brokenhtml(v.content)
+      v.content=f.content_cleanandformat(v.content)
     end
 
     //generate reply quote preview
@@ -486,9 +490,6 @@ f.generate_social_comment_full{
       v.content=v.data_con[content]
       v.content=s.base64_decode(v.content)
       v.content=s.string_clean(v.content)
-
-      v.content=s.markdown(v.content)
-      v.content=s.string_brokenhtml(v.content)
     end
 
     //generate reply quote preview
@@ -542,7 +543,8 @@ f.generate_social_comment_full{
     end
 
     v.emotegenerated=f.generate_social_comment_emotes(v.id_long)
-
+    v.content=f.content_cleanandformat(v.content)
+    
     if notset v.content
       v.content="<p>This comment cant be displayed.</p>"
     end

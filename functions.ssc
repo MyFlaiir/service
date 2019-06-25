@@ -71,10 +71,11 @@ f.cache_string_save{
 	gv.cachesystem[gv.codecachesystem]=v.data
 }
 
-f.clean_md{
+f.content_cleanandformat{
 	v.content=v.function_passed[0]
 	v.content=s.string_replace("https://","",v.content)
 	v.content=s.string_replace("http://","",v.content)
+	v.content=s.string_replace("\s","<BR>",v.content)
 	v.content=s.string_replace("media0.giphy.com","https://media0.giphy.com",v.content)
 	v.content=s.string_replace("media1.giphy.com","https://media1.giphy.com",v.content)
 	v.content=s.string_replace("media2.giphy.com","https://media2.giphy.com",v.content)
@@ -92,7 +93,7 @@ f.clean_md{
 	v.content=s.string_replace("cdn.discordapp.com","https://cdn.discordapp.com",v.content)
 	v.content=s.string_replace("discord.gg","https://discord.gg",v.content)
 
-	s.echo(v.content)
+	s.echo("<p>v.content</p>")
 }
 
 f.set_pagetitle{
