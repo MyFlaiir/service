@@ -1068,7 +1068,6 @@
 		}
 
     </style>
-    <link rel="stylesheet" href="/resources/css/easymde.css?v=3">
     <link rel="stylesheet" type="text/css" href="/resources/css/dropzone.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   </head>
@@ -1101,10 +1100,8 @@
 
     <script src="//assets.nodehost.ca/js/jquery.min.js"></script>
     <script src="/resources/js/dropzone.js?v2"></script>
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script>
     Dropzone.autoDiscover = false;
-
 
     Element.prototype.remove = function(){
       this.parentElement.removeChild(this);
@@ -1142,7 +1139,6 @@
     var current_url=window.location.href;
     var modl_open=false;
     var current_notification_id=1;
-    var easymde=false;
 
     $.fn.serializefiles = function() {
     		var obj = $(this);
@@ -1606,16 +1602,11 @@
     	var content=appcontent[0].innerHTML;
     	var apptitle = $('#js_replace_pagetitle', tempDom);
     	var appdescription = $('#js_replace_pagedescription', tempDom);
-      var mde = $('#js_mde', tempDom);
 
     	content="<div id='modl_form_post_notification'></div><div id='modl_form_post'><div style='display: block;padding-bottom: 10px;font-size: 32px;font-weight: 600;'>" + apptitle[0].innerHTML + "</div><div style='margin-top: 0px;border-bottom: 2px solid rgba(22,22,22,0.05);padding-bottom: 10px;font-size: 14px;margin-bottom: 15px;font-weight: 400;'>" + appdescription[0].innerHTML  + "</div>" + content + "</div>";
 
     	//document.getElementById("modl_content").innerHTML=content;
     	$("#modl_content").html(content);
-
-      if (mde[0]!=undefined){
-    		modl_content_mde(mde[0].innerHTML);
-    	}
 
     	textarea_expand();
     }
@@ -1639,132 +1630,6 @@
     		var old=document.getElementById("file_uploaded").innerHTML;
       	document.getElementById("file_uploaded").innerHTML="<div>" + content + "</div>" + old;
       });
-    }
-
-    function modl_content_mde(data){
-      easymde=false;
-      easymde = new EasyMDE({
-        element: document.getElementById("js_mde"),
-        autosave: false,
-        hideIcons: ["guide", "quote"],
-        toolbar: ["bold", "italic", "strikethrough", "heading", "|", {
-			name: "cus_ytvideo",
-			action: function customFunction(editor){
-        modl_content_mde_youtube();
-			},
-			className: "editor_icon_youtube",
-			title: "Youtube Video",
-		}, {
-  name: "cus_giphy",
-  action: function customFunction(editor){
-    modl_content_mde_giphy();
-  },
-  className: "editor_icon_giphy",
-  title: "Giphy GIF",
-}, {
-name: "cus_photo",
-action: function customFunction(editor){
-modl_content_mde_photo();
-},
-className: "fas fa-cloud-upload-alt",
-title: "Uploaded photo",
-}, "|", "code", "unordered-list", "horizontal-rule", "|", "preview"],
-        spellChecker: true,
-        status: false,
-        forceSync: false,
-        insertTexts: {
-      		image: ["![](http://", ")"],
-      		link: ["[", "](http://)"],
-      		table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
-      	},
-        styleSelectedText: false
-      });
-
-
-      $(".editor-toolbar").after("<div id='mde_editor_custom'></div>");
-    }
-
-    function modl_content_mde_youtube(){
-
-      //[![](https://img.youtube.com/vi/bktinKUsPws/maxresdefault.jpg)](https://www.youtube.com/watch?v=bktinKUsPws)
-      document.getElementById("mde_editor_custom").innerHTML="<div><form><input type=\"text\" id=\"mde_youtubeattach_video\"/> <input type=\"button\" id=\"mde_youtubeattach\" value=\"Insert video\"></form></div>";
-
-
-      var button=document.getElementById("mde_youtubeattach");
-      button.onclick = function() {
-        var value=document.getElementById("mde_youtubeattach_video").value;
-        modl_content_mde_youtube_embed(value);
-      }
-
-    }
-
-    function modl_content_mde_youtube_embed(url){
-      var video_id = url.split('v=')[1];
-      if (video_id.indexOf('&')){
-        var ampersandPosition = video_id.indexOf('&');
-        if(ampersandPosition != -1) {
-          video_id = video_id.substring(0, ampersandPosition);
-        }
-      }
-      pos = easymde.codemirror.getCursor();
-      easymde.codemirror.setSelection(pos, pos);
-      easymde.codemirror.replaceSelection("\n\n[![](https://img.youtube.com/vi/" + video_id + "/maxresdefault.jpg)](https://www.youtube.com/watch?v=" + video_id + ")\n");
-      document.getElementById("mde_editor_custom").innerHTML="";
-    }
-
-    function modl_content_mde_giphy(){
-      document.getElementById("mde_editor_custom").innerHTML="<div><form><input type=\"text\" id=\"mde_giphyattach_search\"/> <input type=\"button\" id=\"mde_giphyattach\" value=\"Search GIF's\"></form></div><div id='mde_giphyattach_results' style='overflow-x: scroll;overflow-y: hidden;white-space: nowrap;'></div>";
-
-      var button=document.getElementById("mde_giphyattach");
-      button.onclick = function(){
-        var value=document.getElementById("mde_giphyattach_search").value;
-        modl_content_mde_giphy_search(value);
-      }
-    }
-
-    function modl_content_mde_giphy_search(search){
-      search = search.replace(/ /g, "+");
-      document.getElementById("mde_giphyattach_results").innerHTML='<div class=\'spinning_loader small\'></div>';
-
-      request = new XMLHttpRequest;
-    	request.open('GET', '/ajax/giphy?search=' + search + '', true);
-    	request.onload = function() {
-    		if (request.status >= 200 && request.status < 400){
-    			data = JSON.parse(request.responseText).data;
-          document.getElementById("mde_giphyattach_results").innerHTML="";
-          data.forEach(function(element){
-            console.log(element);
-            document.getElementById("mde_giphyattach_results").innerHTML='' + document.getElementById("mde_giphyattach_results").innerHTML + '<img src = "' + element["images"]["fixed_height"]["url"] + '" onclick="javascript:modl_content_mde_giphy_embed(\'' + element["images"]["original"]["url"] + '\');" style="border-radius:5px;max-height: 100px;margin-left:2px;margin-right:2px;" title="GIF via Giphy">';
-          });
-    		} else {
-    			document.getElementById("mde_giphyattach_results").innerHTML="We did reach Giphy, but the API returned an error";
-    		 }
-    	};
-    	request.onerror = function() {
-    		document.getElementById("mde_giphyattach_results").innerHTML="Connection error";
-    	};
-
-    	request.send();
-    }
-
-    function modl_content_mde_giphy_embed(url){
-      pos = easymde.codemirror.getCursor();
-      easymde.codemirror.setSelection(pos, pos);
-      easymde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
-      document.getElementById("mde_editor_custom").innerHTML="";
-    }
-
-    function modl_content_mde_photo(){
-      document.getElementById("mde_editor_custom").innerHTML="<div><div id='mde_photoattach_uploader' style='margin-bottom:10px;font-weight:600;'><a href=\"javascript:modl('/actions/post_media_photo');\">Upload more images to your account (warning will close this window)</a></div><div id='mde_photoattach_results' style='overflow-x: scroll;overflow-y: hidden;white-space: nowrap;'></div>";
-
-      fetch_fordiv("/ajax/user_media_photos","mde_photoattach_results");
-    }
-
-    function modl_content_mde_photo_embed(url){
-      pos = easymde.codemirror.getCursor();
-      easymde.codemirror.setSelection(pos, pos);
-      easymde.codemirror.replaceSelection("\n\n![](" + url + ")\n\n");
-      document.getElementById("mde_editor_custom").innerHTML="";
     }
 
     function modl_content(title,description,content,mode){

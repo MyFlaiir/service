@@ -73,6 +73,7 @@ f.cache_string_save{
 
 f.content_cleanandformat{
 	v.content=v.function_passed[0]
+	v.content=s.markdown(v.content)
 	v.content=s.string_replace("https://","",v.content)
 	v.content=s.string_replace("http://","",v.content)
 	v.content=s.string_replace("\n","<BR>",v.content)
@@ -92,8 +93,9 @@ f.content_cleanandformat{
 	v.content=s.string_replace("thumbs.gfycat.com","https://thumbs.gfycat.com",v.content)
 	v.content=s.string_replace("cdn.discordapp.com","https://cdn.discordapp.com",v.content)
 	v.content=s.string_replace("discord.gg","https://discord.gg",v.content)
+	v.content=s.string_brokenhtml(v.content)
 
-	s.echo("<p>v.content</p>")
+	s.echo("v.content")
 }
 
 f.set_pagetitle{
