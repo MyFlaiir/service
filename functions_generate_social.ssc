@@ -99,6 +99,8 @@ f.generate_social_update_small{
     else
       t.content_middle("<bubble>v.displaycontent</bubble>")
     end
+  else
+    t.content_middle("<bubble><div class='message_warning'>Sorry but this resource cant be found anymore</div></bubble>")
   end
 
   v.data_id=""
@@ -175,6 +177,8 @@ f.generate_social_update_full{
     else
       t.content_middle("<bubble><div class='message_warning'>We have no comments to show</div></bubble>")
     end
+  else
+    t.content_middle("<bubble><div class='message_warning'>Sorry but this resource cant be found anymore</div></bubble>")
   end
 }
 
@@ -560,6 +564,8 @@ f.generate_social_comment_full{
     else
       t.content_middle("<bubble>v.displaycontent</bubble>")
     end
+  else
+    t.content_middle("<bubble><div class='message_warning'>Sorry but this resource cant be found anymore</div></bubble>")
   end
 
   v.data_id=""
