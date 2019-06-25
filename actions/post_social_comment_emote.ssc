@@ -7,10 +7,18 @@ f.set_pagedescription("What are you up to?")
 if set uv.post
   v.post=s.string_clean(uv.post)
   v.emote=s.string_clean(uv.emote)
+  v.data_list=s.mysql_select("SELECT * FROM socials_comments WHERE id_long='v.post' LIMIT 1")
+  if not v.data_list false
+    v.sendpost=v.data_list[id]
 
-  f.post_social_comment_emote(v.post,v.emote)
+    f.post_social_comment_emote(v.sendpost,v.emote)
 
-  t.content("<checkupaction action='notification' type='success'>Emote set on comment</checkupaction>")
-  v.getgenrated=f.generate_social_comment_emotes(v.post)
-  t.content("v.getgenrated")
+    t.content("<checkupaction action='notification' type='success'>Emote set on comment</checkupaction>")
+    v.getgenrated=f.generate_social_comment_emotes(v.sendpost)
+    t.content("v.getgenrated")
+  else
+    t.content("<checkupaction action='notification' type='error'>We cant find this comment</checkupaction>")
+    v.getgenrated=f.generate_social_update_emotes(v.sendpost)
+    t.content("v.getgenrated")
+  end
 end
