@@ -10,9 +10,27 @@ v.idcode=s.string_clean(v.catchall)
 
 v.data_post=s.mysql_select("SELECT * FROM socials_updates WHERE id_long='v.idcode' LIMIT 1")
 if not v.data_post false
+  v.id_long=v.data_post[id_long]
 
   v.linkid=v.data_post[id]
   f.generate_social_update_full(v.linkid)
+
+  if v.data_post[visible]=="1"
+    t.content_middle("<h1 style='margin-top:50px;margin-bottom:15px;'>Comments</h1><h2 style='margin-bottom:20px;'><a href="javascript:modl('/actions/post_social_comment?post=v.id_long');" class='post_make_comment_full'>Make comment</a></h2>")
+  else
+    t.content_middle("<h1 style='margin-top:50px;margin-bottom:15px;'>Comments</h1>")
+  end
+
+  v.data_posts=s.mysql_select("SELECT id,user,id_long FROM socials_comments WHERE resource_type='update' AND resource_id='v.data_post[id]' AND visible='1' ORDER BY id DESC LIMIT 100")
+  if not v.data_posts false
+    if set v.data_posts[user]
+      f.generate_social_comment_ajax(v.data_posts)
+    else
+      s.array_loop("generate_social_comment_ajax",v.data_posts)
+    end
+  else
+    t.content_middle("<bubble><div class='message_warning'>We have no comments to show</div></bubble>")
+  end
 
 else
   t.content_middle("<bubble>No update found with this id</bubble>")
