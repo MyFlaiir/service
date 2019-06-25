@@ -14,7 +14,7 @@ f.update_social_update{
       v.datecode=s.timestamp()
 
       v.update=s.mysql_update("UPDATE socials_updates SET date_updated='v.datecode' WHERE id='v.id'")
-      v.contentupdate=s.mysql_update("UPDATE socials_updates_storage_v.data[storage] SET content='v.compressed' WHERE post='v.id'")
+      v.contentupdate=s.mysql_update("UPDATE socials_updates_storage_v.data[storage] SET content='v.compressed' WHERE resource='v.id'")
     end
   end
 }
@@ -35,7 +35,7 @@ f.update_social_comment{
       v.datecode=s.timestamp()
 
       v.update=s.mysql_update("UPDATE socials_comments SET date_updated='v.datecode' WHERE id='v.id'")
-      v.contentupdate=s.mysql_update("UPDATE socials_comments_storage_v.data[storage] SET content='v.compressed' WHERE comment='v.id'")
+      v.contentupdate=s.mysql_update("UPDATE socials_comments_storage_v.data[storage] SET content='v.compressed' WHERE resource='v.id'")
     end
   end
 }
