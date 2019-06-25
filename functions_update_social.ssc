@@ -1,0 +1,41 @@
+f.update_social_update{
+  v.id=v.function_passed[0]
+  v.content=v.function_passed[1]
+
+  v.data=s.mysql_select("SELECT * FROM socials_updates WHERE id='v.id' LIMIT 1")
+  if not v.data false
+    if set v.content
+
+      v.maxsize=300
+
+      //encode content and add limits
+      v.content=s.string_trim_utf8(v.content,v.maxsize)
+      v.compressed=s.base64_encode(v.content)
+      v.datecode=s.timestamp()
+
+      v.update=s.mysql_update("UPDATE socials_updates SET date_updated='v.datecode' WHERE id='v.id'")
+      v.contentupdate=s.mysql_update("UPDATE socials_updates_storage_v.data[storage] SET content='v.compressed' WHERE post='v.id'")
+    end
+  end
+}
+
+f.update_social_comment{
+  v.id=v.function_passed[0]
+  v.content=v.function_passed[1]
+
+  v.data=s.mysql_select("SELECT * FROM socials_comments WHERE id='v.id' LIMIT 1")
+  if not v.data false
+    if set v.content
+
+      v.maxsize=300
+
+      //encode content and add limits
+      v.content=s.string_trim_utf8(v.content,v.maxsize)
+      v.compressed=s.base64_encode(v.content)
+      v.datecode=s.timestamp()
+
+      v.update=s.mysql_update("UPDATE socials_comments SET date_updated='v.datecode' WHERE id='v.id'")
+      v.contentupdate=s.mysql_update("UPDATE socials_comments_storage_v.data[storage] SET content='v.compressed' WHERE comment='v.id'")
+    end
+  end
+}

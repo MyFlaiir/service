@@ -94,7 +94,6 @@ f.content_cleanandformat{
 	v.content=s.string_replace("cdn.discordapp.com","https://cdn.discordapp.com",v.content)
 	v.content=s.string_replace("discord.gg","https://discord.gg",v.content)
 	v.content=s.string_brokenhtml(v.content)
-
 	s.echo("v.content")
 }
 

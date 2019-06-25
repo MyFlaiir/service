@@ -65,7 +65,7 @@ if not v.data_profile false
   t.content_middle("</div></bubble>")
 
   //load posts
-  v.data_posts=s.mysql_select("SELECT * FROM socials_updates WHERE user='v.profileid' ORDER BY id DESC LIMIT 100")
+  v.data_posts=s.mysql_select("SELECT * FROM socials_updates WHERE user='v.profileid' AND visible='1' ORDER BY id DESC LIMIT 100")
   if not v.data_posts false
     if set v.data_posts[user]
       f.generate_social_update_ajax(v.data_posts)
