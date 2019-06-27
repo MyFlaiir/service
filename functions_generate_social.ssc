@@ -22,7 +22,7 @@ f.generate_social_update_comments_mini_ajax{
     v.postid=v.postid[id_long]
   end
 
-  t.content_middle("<bubble><checkupaction action='ajaxload' divajax='socialajax_update_comments_mini_v.postid'>/ajax/social_update_comments_mini?post=v.postid</checkupaction><div id='socialajax_update_comments_mini_v.postid'></div></bubble>")
+  s.echo("<bubble><checkupaction action='ajaxload' divajax='socialajax_update_comments_mini_v.postid'>/ajax/social_update_comments_mini?post=v.postid</checkupaction><div id='socialajax_update_comments_mini_v.postid'></div></bubble>")
 }
 
 f.generate_social_comment_comments_mini_ajax{
@@ -31,7 +31,7 @@ f.generate_social_comment_comments_mini_ajax{
     v.postid=v.postid[id_long]
   end
 
-  t.content_middle("<bubble><checkupaction action='ajaxload' divajax='socialajax_comment_comments_mini_v.postid'>/ajax/social_comment_comments_mini_ajax?comment=v.postid</checkupaction><div id='socialajax_comment_comments_mini_v.postid'></div></bubble>")
+  s.echo("<bubble><checkupaction action='ajaxload' divajax='socialajax_comment_comments_mini_v.postid'>/ajax/social_comment_comments_mini_ajax?comment=v.postid</checkupaction><div id='socialajax_comment_comments_mini_v.postid'></div></bubble>")
 }
 
 f.generate_social_update_small{
