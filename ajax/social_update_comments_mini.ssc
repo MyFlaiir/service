@@ -1,0 +1,12 @@
+s.include("/system.ssc");
+s.template("/templates/modl.html")
+
+v.postid=s.string_clean(uv.post)
+v.data_posts=s.mysql_select("SELECT id FROM socials_comments WHERE resource_type='update' AND resource_id='v.postid' AND visible='1' ORDER BY id DESC LIMIT 5")
+if not v.data_posts false
+  if set v.data_posts[user]
+    f.generate_social_comment_micro(v.data_posts)
+  else
+    s.array_loop("generate_social_comment_micro",v.data_posts)
+  end
+end
