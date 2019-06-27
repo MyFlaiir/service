@@ -106,7 +106,7 @@ f.generate_social_update_small{
 
     v.daxcomm=s.mysql_select("SELECT id FROM socials_comments WHERE resource_type='update' AND resource_id='v.postid' AND visible='1' ORDER BY id DESC LIMIT 1")
     if not v.daxcomm false
-      v.comment=f.generate_social_update_comments_mini_ajax(v.postid)
+      v.comment=f.generate_social_update_comments_mini_ajax(v.id_long)
       v.previewcomment="<div style='margin-bottom:8px;'>v.comment</div><a href='/update/v.id_long' class='post_viewall'>View all comments</a>"
     end
 
@@ -451,7 +451,7 @@ f.generate_social_comment_small{
 
     v.daxcomm=s.mysql_select("SELECT id FROM socials_comments WHERE resource_type='comment' AND resource_id='v.postid' AND visible='1' ORDER BY id DESC LIMIT 1")
     if not v.daxcomm false
-      v.comment=f.generate_social_comment_comments_mini_ajax(v.postid)
+      v.comment=f.generate_social_comment_comments_mini_ajax(v.id_long)
       v.previewcomment="<div style='margin-bottom:8px;'>v.comment</div><a href='/comment/v.id_long' class='post_viewall'>View all comments</a>"
     end
 
