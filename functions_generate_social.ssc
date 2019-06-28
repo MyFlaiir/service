@@ -246,7 +246,7 @@ f.generate_social_update_emotes{
   s.echo("<div class='post_emote v.emote_set_sad'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.long&emote=sad','post_emote_case_v.long')\"><img src='/resources/img/emotes/sad.svg'></a><number>v.emote_sad</number></div>")
   s.echo("<div class='post_emote v.emote_set_angry'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.long&emote=angry','post_emote_case_v.long')\"><img src='/resources/img/emotes/angry.svg'></a><number>v.emote_angry</number></div>")
 
-  s.echo("</div><div class='post_emote_event'></div>")
+  s.echo("</div><div class='post_emote_event'><img style='max-width:20px;max-height:20px;' src='/resources/img/emote.svg'></div>")
   s.echo("</div>")
 }
 
