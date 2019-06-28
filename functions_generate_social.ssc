@@ -289,7 +289,7 @@ f.generate_social_comment_emotes{
   v.total+v.emote_sad
   v.total+v.emote_angry
 
-  s.echo("<div id='comment_emote_case_v.long'>")
+  s.echo("<div id='comment_emote_case_v.long' class='post_emote_case'>")
   if not v.myemote false
     if set v.myemote
       if v.myemote=="heart"
