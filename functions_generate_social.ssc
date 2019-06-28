@@ -219,28 +219,36 @@ f.generate_social_update_emotes{
   v.total+v.emote_angry
 
   s.echo("<div id='post_emote_case_v.long' class='post_emote_case'>")
+  v.imageuse="/resources/img/emote.svg"
   if not v.myemote false
     if set v.myemote
       if v.myemote=="heart"
         v.emote_set_heart="set"
+        v.imageuse="/resources/img/emotes/heart.svg"
       end
       if v.myemote=="cheese"
         v.emote_set_cheese="set"
+        v.imageuse="/resources/img/emotes/cheese.svg"
       end
       if v.myemote=="shocked"
         v.emote_set_shocked="set"
+        v.imageuse="/resources/img/emotes/shocked.svg"
       end
       if v.myemote=="thinking"
         v.emote_set_thinking="set"
+        v.imageuse="/resources/img/emotes/thinking.svg"
       end
       if v.myemote=="laugh"
         v.emote_set_laugh="set"
+        v.imageuse="/resources/img/emotes/laugh.svg"
       end
       if v.myemote=="sad"
         v.emote_set_sad="set"
+        v.imageuse="/resources/img/emotes/sad.svg"
       end
       if v.myemote=="angry"
         v.emote_set_angry="set"
+        v.imageuse="/resources/img/emotes/angry.svg"
       end
     end
   end
@@ -255,7 +263,7 @@ f.generate_social_update_emotes{
   s.echo("<div class='post_emote v.emote_set_sad'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.long&emote=sad','post_emote_case_v.long')\"><img src='/resources/img/emotes/sad.svg'></a><number>v.emote_sad</number></div>")
   s.echo("<div class='post_emote v.emote_set_angry'><a href=\"javascript:fetch_fordiv('/actions/post_social_update_emote?post=v.long&emote=angry','post_emote_case_v.long')\"><img src='/resources/img/emotes/angry.svg'></a><number>v.emote_angry</number></div>")
 
-  s.echo("</div><div class='post_emote_event'><img src='/resources/img/emote.svg'>v.total</div>")
+  s.echo("</div><div class='post_emote_event'><img src='v.imageuse'>v.total</div>")
   s.echo("</div>")
 }
 
@@ -290,28 +298,37 @@ f.generate_social_comment_emotes{
   v.total+v.emote_angry
 
   s.echo("<div id='comment_emote_case_v.long' class='post_emote_case'>")
+
+  v.imageuse="/resources/img/emote.svg"
   if not v.myemote false
     if set v.myemote
       if v.myemote=="heart"
         v.emote_set_heart="set"
+        v.imageuse="/resources/img/emotes/heart.svg"
       end
       if v.myemote=="cheese"
         v.emote_set_cheese="set"
+        v.imageuse="/resources/img/emotes/cheese.svg"
       end
       if v.myemote=="shocked"
         v.emote_set_shocked="set"
+        v.imageuse="/resources/img/emotes/shocked.svg"
       end
       if v.myemote=="thinking"
         v.emote_set_thinking="set"
+        v.imageuse="/resources/img/emotes/thinking.svg"
       end
       if v.myemote=="laugh"
         v.emote_set_laugh="set"
+        v.imageuse="/resources/img/emotes/laugh.svg"
       end
       if v.myemote=="sad"
         v.emote_set_sad="set"
+        v.imageuse="/resources/img/emotes/sad.svg"
       end
       if v.myemote=="angry"
         v.emote_set_angry="set"
+        v.imageuse="/resources/img/emotes/angry.svg"
       end
     end
   end
@@ -326,7 +343,7 @@ f.generate_social_comment_emotes{
   s.echo("<div class='post_emote v.emote_set_sad'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.long&emote=sad','comment_emote_case_v.long')\"><img src='/resources/img/emotes/sad.svg'></a><number>v.emote_sad</number></div>")
   s.echo("<div class='post_emote v.emote_set_angry'><a href=\"javascript:fetch_fordiv('/actions/post_social_comment_emote?post=v.long&emote=angry','comment_emote_case_v.long')\"><img src='/resources/img/emotes/angry.svg'></a><number>v.emote_angry</number></div>")
 
-  s.echo("</div><div class='post_emote_event'><img src='/resources/img/emote.svg'>v.total</div>")
+  s.echo("</div><div class='post_emote_event'><img src='v.imageuse'>v.total</div>")
   s.echo("</div>")
 }
 
